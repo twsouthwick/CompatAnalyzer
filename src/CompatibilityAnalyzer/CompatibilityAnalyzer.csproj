@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Compatibility.Cci\CompatibilityAnalyzer.Cci.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.NuGet\CompatibilityAnalyzer.NuGet.csproj" />
+  </ItemGroup>
+
+</Project>
