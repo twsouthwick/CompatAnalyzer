@@ -2,6 +2,36 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <BuildToolsPath>..\..\modules\buildtools\src\</BuildToolsPath>
+    <CommonPath>$(BuildToolsPath)common</CommonPath>
+    <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(BuildToolsPath)\ApiCompat\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="$(BuildToolsPath)\Microsoft.Cci.Extensions\**\*.cs">
+      <Link>Extensions\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+  </ItemGroup>
+
+  <!-- Common command-line helper sources -->
+  <ItemGroup>
+    <Compile Include="$(CommonPath)\CommandLine.cs">
+      <Link>Common\CommandLine.cs</Link>
+    </Compile>
+    <Compile Include="$(CommonPath)\CommandLineTraceHandler.cs">
+      <Link>Common\CommandLineTraceHandler.cs</Link>
+    </Compile>
+    <Compile Include="$(CommonPath)\ConsoleTraceListener.cs">
+      <Link>Common\ConsoleTraceListener.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Cci" Version="4.0.0-rc3-24214-00" />
+    <PackageReference Include="Microsoft.Composition" Version="1.0.31" />
+  </ItemGroup>
 
 </Project>

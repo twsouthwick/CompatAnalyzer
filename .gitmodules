@@ -1,0 +1,3 @@
+[submodule "modules/buildtools"]
+	path = modules/buildtools
+	url = https://github.com/dotnet/buildtools.git
