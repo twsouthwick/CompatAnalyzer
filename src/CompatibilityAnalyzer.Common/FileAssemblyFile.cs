@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace CompatibilityAnalyzer
 {
@@ -6,11 +7,21 @@ namespace CompatibilityAnalyzer
     {
         public FileAssemblyFile(string path)
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException("Could not find file", path);
+            }
+
             Path = path;
         }
 
         public string Path { get; }
 
-        public Stream OpenReadAsync() => File.OpenRead(Path);
+        public Stream OpenRead() => File.OpenRead(Path);
     }
 }

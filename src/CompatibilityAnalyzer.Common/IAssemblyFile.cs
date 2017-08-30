@@ -6,6 +6,6 @@ namespace CompatibilityAnalyzer
     {
         string Path { get; }
 
-        Stream OpenReadAsync();
+        Stream OpenRead();
     }
 }

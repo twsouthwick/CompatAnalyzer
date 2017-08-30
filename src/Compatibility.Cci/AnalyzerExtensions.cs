@@ -12,7 +12,7 @@ namespace CompatibilityAnalyzer
 
             foreach (var file in files)
             {
-                using (var stream = file.OpenReadAsync())
+                using (var stream = file.OpenRead())
                 {
                     result.Add(host.LoadAssemblyFrom(file.Path, stream));
                 }
