@@ -2,9 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>CompatibilityAnalyzer</RootNamespace>
+    <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <BuildToolsPath>..\..\modules\buildtools\src\</BuildToolsPath>
     <CommonPath>$(BuildToolsPath)common</CommonPath>
-    <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NuGetCompatAnalyzer.Common\NuGetCompatAnalyzer.Common.csproj" />
+    <ProjectReference Include="..\NuGetCompatAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
   </ItemGroup>
 
 </Project>

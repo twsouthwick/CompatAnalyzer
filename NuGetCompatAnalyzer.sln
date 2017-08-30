@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5D6826B7-9E87-4DC1-A90C-6741497455B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiCompat", "src\ApiCompat\ApiCompat.csproj", "{908A9889-CFF1-4E85-AA71-726472CB5CB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Cci", "src\ApiCompat\CompatibilityAnalyzer.Cci.csproj", "{908A9889-CFF1-4E85-AA71-726472CB5CB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuGetCompatAnalyzer", "src\NuGetCompatAnalyzer\NuGetCompatAnalyzer.csproj", "{82834F67-62B4-4114-BB84-9E50EDE96D0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer", "src\NuGetCompatAnalyzer\CompatibilityAnalyzer.csproj", "{82834F67-62B4-4114-BB84-9E50EDE96D0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetCompatAnalyzer.Common", "src\NuGetCompatAnalyzer.Common\NuGetCompatAnalyzer.Common.csproj", "{11F84C5A-607E-471A-BB6E-D8295C2BF5B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAnalyzer.Common", "src\NuGetCompatAnalyzer.Common\CompatibilityAnalyzer.Common.csproj", "{11F84C5A-607E-471A-BB6E-D8295C2BF5B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGetCompatAnalyzer.NuGet", "NuGetCompatAnalyzer.NuGet\NuGetCompatAnalyzer.NuGet.csproj", "{05BF283C-5F48-46EC-9AD8-46CA356F621D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAnalyzer.NuGet", "NuGetCompatAnalyzer.NuGet\CompatibilityAnalyzer.NuGet.csproj", "{05BF283C-5F48-46EC-9AD8-46CA356F621D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

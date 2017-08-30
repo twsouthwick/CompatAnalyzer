@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace NuGetCompatAnalyzer
+namespace CompatibilityAnalyzer
 {
     public class ByteAssemblyFile : IAssemblyFile
     {

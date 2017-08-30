@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\NuGetCompatAnalyzer.NuGet\NuGetCompatAnalyzer.NuGet.csproj" />
-    <ProjectReference Include="..\ApiCompat\ApiCompat.csproj" />
+    <ProjectReference Include="..\..\NuGetCompatAnalyzer.NuGet\CompatibilityAnalyzer.NuGet.csproj" />
+    <ProjectReference Include="..\ApiCompat\CompatibilityAnalyzer.Cci.csproj" />
   </ItemGroup>
 
 </Project>

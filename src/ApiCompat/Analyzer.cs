@@ -1,11 +1,11 @@
-﻿using Microsoft.Cci;
+﻿using ApiCompat;
+using Microsoft.Cci;
 using Microsoft.Cci.Comparers;
 using Microsoft.Cci.Differs;
 using Microsoft.Cci.Extensions;
 using Microsoft.Cci.Filters;
 using Microsoft.Cci.Mappings;
 using Microsoft.Cci.Writers;
-using NuGetCompatAnalyzer;
 using System;
 using System.Collections.Generic;
 using System.Composition;
@@ -15,7 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace ApiCompat
+namespace CompatibilityAnalyzer
 {
     public class Analyzer
     {

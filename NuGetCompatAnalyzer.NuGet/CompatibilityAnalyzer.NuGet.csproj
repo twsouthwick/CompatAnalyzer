@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\NuGetCompatAnalyzer.Common\NuGetCompatAnalyzer.Common.csproj" />
+    <ProjectReference Include="..\src\NuGetCompatAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
   </ItemGroup>
 
 </Project>

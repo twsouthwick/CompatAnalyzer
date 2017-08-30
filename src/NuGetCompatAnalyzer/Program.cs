@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NuGetCompatAnalyzer
+namespace CompatibilityAnalyzer
 {
     class Program
     {
@@ -14,7 +14,7 @@ namespace NuGetCompatAnalyzer
 
         static async Task MainAsync()
         {
-            var analyzer = new ApiCompat.Analyzer(Console.Out);
+            var analyzer = new Analyzer(Console.Out);
 
             using (var downloader = new NuGetPackageDownloader(@"https://api.nuget.org/v3/index.json"))
             {
