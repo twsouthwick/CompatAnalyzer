@@ -15,12 +15,16 @@ namespace CompatibilityAnalyzer
         private readonly HttpClientHandler _handler;
         private readonly HttpHandlerResourceV3 _httpResource;
         private readonly SourceRepository _repository;
+        private readonly SourceCacheContext _cache;
+        private readonly ILogger _log;
 
-        public NuGetPackageDownloader(NuGetDownloaderSettings settings)
+        public NuGetPackageDownloader(NuGetDownloaderSettings settings, SourceCacheContext cache, ILogger log)
         {
             _handler = new HttpClientHandler();
             _httpResource = new HttpHandlerResourceV3(_handler, _handler);
             _repository = Repository.Factory.GetCoreV3(settings.Feed);
+            _cache = cache;
+            _log = log;
         }
 
         public void Dispose()
@@ -35,7 +39,7 @@ namespace CompatibilityAnalyzer
 
             using (var ms = new MemoryStream())
             {
-                if (await finder.CopyNupkgToStreamAsync(id, nugetVersion, ms, new SourceCacheContext(), NullLogger.Instance, token))
+                if (await finder.CopyNupkgToStreamAsync(id, nugetVersion, ms, _cache, _log, token))
                 {
                     return new NupkgData(id, version, ms.ToArray());
                 }

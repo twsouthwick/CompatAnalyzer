@@ -16,19 +16,11 @@ namespace CompatibilityAnalyzer
             var builder = new ContainerBuilder();
 
             builder.RegisterInstance<TextWriter>(Console.Out);
-
-            builder.RegisterType<CciAssemblyCompatibilityAnalyzer>()
-                .As<IAssemblyCompatibilityAnalyzer>()
-                .SingleInstance();
-
-            builder.RegisterType<NuGetPackageDownloader>()
-                .AsSelf()
-                .SingleInstance();
-
-            builder.RegisterInstance(GetSettings());
-
             builder.RegisterType<Program>()
                 .AsSelf();
+
+            builder.RegisterModule<NuGetModule>();
+            builder.RegisterModule<AssemblyCompatibilityModule>();
 
             using (var container = builder.Build())
             {
@@ -36,14 +28,6 @@ namespace CompatibilityAnalyzer
 
                 program.RunAsync().GetAwaiter().GetResult();
             }
-        }
-
-        private static NuGetDownloaderSettings GetSettings()
-        {
-            return new NuGetDownloaderSettings
-            {
-                Feed = @"https://api.nuget.org/v3/index.json"
-            };
         }
 
         public Program(IAssemblyCompatibilityAnalyzer analyzer, NuGetPackageDownloader downloader)
@@ -54,7 +38,7 @@ namespace CompatibilityAnalyzer
 
         public async Task RunAsync()
         {
-            var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.3", CancellationToken.None);
+            var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None);
 
             foreach (var framework in result.GetFrameworks())
             {
