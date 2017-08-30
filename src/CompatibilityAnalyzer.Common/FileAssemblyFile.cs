@@ -7,17 +7,12 @@ namespace CompatibilityAnalyzer
     {
         public FileAssemblyFile(string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            Path = path ?? throw new ArgumentNullException(nameof(path));
 
-            if (!File.Exists(path))
+            if (!File.Exists(Path))
             {
                 throw new FileNotFoundException("Could not find file", path);
             }
-
-            Path = path;
         }
 
         public string Path { get; }

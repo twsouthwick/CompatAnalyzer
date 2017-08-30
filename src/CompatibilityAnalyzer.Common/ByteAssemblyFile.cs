@@ -9,23 +9,13 @@ namespace CompatibilityAnalyzer
 
         public ByteAssemblyFile(string path, byte[] data)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
+            _data = data ?? throw new ArgumentNullException(nameof(data));
+            Path = path ?? throw new ArgumentNullException(nameof(path));
 
             if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentOutOfRangeException(nameof(path));
             }
-
-            if (data == null)
-            {
-                throw new ArgumentNullException(nameof(data));
-            }
-
-            _data = data;
-            Path = path;
         }
 
         public string Path { get; }
