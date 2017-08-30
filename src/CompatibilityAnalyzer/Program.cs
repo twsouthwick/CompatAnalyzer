@@ -1,33 +1,68 @@
-﻿using System;
-using System.Linq;
+﻿using Autofac;
+using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CompatibilityAnalyzer
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private readonly IAssemblyCompatibilityAnalyzer _analyzer;
+        private readonly NuGetPackageDownloader _downloader;
+
+        private static void Main(string[] args)
         {
-            MainAsync().GetAwaiter().GetResult();
+            var builder = new ContainerBuilder();
+
+            builder.RegisterInstance<TextWriter>(Console.Out);
+
+            builder.RegisterType<CciAssemblyCompatibilityAnalyzer>()
+                .As<IAssemblyCompatibilityAnalyzer>()
+                .SingleInstance();
+
+            builder.RegisterType<NuGetPackageDownloader>()
+                .AsSelf()
+                .SingleInstance();
+
+            builder.RegisterInstance(GetSettings());
+
+            builder.RegisterType<Program>()
+                .AsSelf();
+
+            using (var container = builder.Build())
+            {
+                var program = container.Resolve<Program>();
+
+                program.RunAsync().GetAwaiter().GetResult();
+            }
         }
 
-        static async Task MainAsync()
+        private static NuGetDownloaderSettings GetSettings()
         {
-            var analyzer = new CciAssemblyCompatibilityAnalyzer(Console.Out);
-
-            using (var downloader = new NuGetPackageDownloader(@"https://api.nuget.org/v3/index.json"))
+            return new NuGetDownloaderSettings
             {
-                var result = await downloader.DownloadAsync("Newtonsoft.Json", "10.0.3", CancellationToken.None);
+                Feed = @"https://api.nuget.org/v3/index.json"
+            };
+        }
 
-                foreach (var framework in result.GetFrameworks())
+        public Program(IAssemblyCompatibilityAnalyzer analyzer, NuGetPackageDownloader downloader)
+        {
+            _analyzer = analyzer;
+            _downloader = downloader;
+        }
+
+        public async Task RunAsync()
+        {
+            var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.3", CancellationToken.None);
+
+            foreach (var framework in result.GetFrameworks())
+            {
+                Console.WriteLine(framework);
+
+                foreach (var assembly in result.GetAssemblies(framework))
                 {
-                    Console.WriteLine(framework);
-
-                    foreach (var assembly in result.GetAssemblies(framework))
-                    {
-                        Console.WriteLine($"\t{assembly.Path}");
-                    }
+                    Console.WriteLine($"\t{assembly.Path}");
                 }
             }
 

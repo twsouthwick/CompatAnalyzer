@@ -16,11 +16,11 @@ namespace CompatibilityAnalyzer
         private readonly HttpHandlerResourceV3 _httpResource;
         private readonly SourceRepository _repository;
 
-        public NuGetPackageDownloader(string feed)
+        public NuGetPackageDownloader(NuGetDownloaderSettings settings)
         {
             _handler = new HttpClientHandler();
             _httpResource = new HttpHandlerResourceV3(_handler, _handler);
-            _repository = Repository.Factory.GetCoreV3(feed);
+            _repository = Repository.Factory.GetCoreV3(settings.Feed);
         }
 
         public void Dispose()
