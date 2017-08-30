@@ -17,6 +17,15 @@ namespace CompatibilityAnalyzer
         }
 
         [Fact]
+        public void ByteAssemblyFileToString()
+        {
+            var path = GeneratePath();
+            var file = new ByteAssemblyFile(path, Array.Empty<byte>());
+
+            Assert.Equal(path, file.ToString());
+        }
+
+        [Fact]
         public void Contents()
         {
             var path = GeneratePath();

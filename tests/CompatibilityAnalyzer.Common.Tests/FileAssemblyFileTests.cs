@@ -18,6 +18,17 @@ namespace CompatibilityAnalyzer
         }
 
         [Fact]
+        public void FilePathToString()
+        {
+            using (var temp = new TemporaryFile())
+            {
+                var file = new FileAssemblyFile(temp.Path);
+
+                Assert.Equal(temp.Path, file.ToString());
+            }
+        }
+
+        [Fact]
         public void Contents()
         {
             using (var temp = new TemporaryFile())

@@ -18,5 +18,7 @@ namespace CompatibilityAnalyzer
         public string Path { get; }
 
         public Stream OpenRead() => File.OpenRead(Path);
+
+        public override string ToString() => Path;
     }
 }

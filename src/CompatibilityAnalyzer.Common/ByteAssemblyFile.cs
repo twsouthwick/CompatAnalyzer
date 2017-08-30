@@ -21,5 +21,7 @@ namespace CompatibilityAnalyzer
         public string Path { get; }
 
         public Stream OpenRead() => new MemoryStream(_data);
+
+        public override string ToString() => Path;
     }
 }
