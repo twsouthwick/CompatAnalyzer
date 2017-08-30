@@ -16,7 +16,7 @@ namespace NuGetCompatAnalyzer
 
             var _604 = @"C:\Users\tasou\.nuget\packages\newtonsoft.json\6.0.4\lib\net45\Newtonsoft.Json.dll";
             var _10 = @"C:\Users\tasou\.nuget\packages\newtonsoft.json\10.0.3\lib\net45\Newtonsoft.Json.dll";
-            analyzer.Analyze(new[] { new FileAssemblyFile(_604) }, new[] { _10 });
+            analyzer.Analyze(new[] { new FileAssemblyFile(_604) }, new[] { new FileAssemblyFile(_10) });
         }
 
         private class FileAssemblyFile : ApiCompat.IAssemblyFile

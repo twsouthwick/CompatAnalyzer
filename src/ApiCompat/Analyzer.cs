@@ -19,10 +19,12 @@ namespace ApiCompat
     public class Analyzer
     {
         private readonly TextWriter _log;
+        private readonly string _reference;
 
         public Analyzer(TextWriter log)
         {
             _log = log;
+            _reference = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7";
 
             Trace.Listeners.Add(new TextWriterTraceListener(_log)
             {
@@ -30,7 +32,7 @@ namespace ApiCompat
             });
         }
 
-        public void Analyze(IEnumerable<IAssemblyFile> version1Assemblies, IEnumerable<string> version2Assemblies)
+        public void Analyze(IEnumerable<IAssemblyFile> version1Assemblies, IEnumerable<IAssemblyFile> version2Assemblies)
         {
             BaselineDifferenceFilter filter = GetBaselineDifferenceFilter();
             NameTable sharedNameTable = new NameTable();
@@ -38,7 +40,7 @@ namespace ApiCompat
             contractHost.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(contractHost_UnableToResolve);
             contractHost.ResolveAgainstRunningFramework = true;
             contractHost.UnifyToLibPath = true;
-            contractHost.AddLibPaths(HostEnvironment.SplitPaths(s_contractLibDirs));
+            contractHost.AddLibPath(_reference);
             var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies);
 
             if (s_ignoreDesignTimeFacades)
@@ -46,14 +48,14 @@ namespace ApiCompat
 
             HostEnvironment implHost = new HostEnvironment(sharedNameTable);
             implHost.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(implHost_UnableToResolve);
-            implHost.ResolveAgainstRunningFramework = s_resolveFx;
+            implHost.ResolveAgainstRunningFramework = true;
             implHost.UnifyToLibPath = s_unifyToLibPaths;
-            implHost.AddLibPaths(version2Assemblies);
+            implHost.AddLibPath(_reference);
             if (s_warnOnMissingAssemblies)
                 implHost.LoadErrorTreatment = ErrorTreatment.TreatAsWarning;
 
             // The list of contractAssemblies already has the core assembly as the first one (if _contractCoreAssembly was specified).
-            IEnumerable<IAssembly> implAssemblies = implHost.LoadAssemblies(contractAssemblies.Select(a => a.AssemblyIdentity), s_warnOnIncorrectVersion);
+            IEnumerable<IAssembly> implAssemblies = implHost.LoadAssemblies(version2Assemblies);
 
             // Exit after loading if the code is set to non-zero
             if (DifferenceWriter.ExitCode != 0)
