@@ -16,17 +16,8 @@
     </Compile>
   </ItemGroup>
 
-  <!-- Common command-line helper sources -->
   <ItemGroup>
-    <Compile Include="$(CommonPath)\CommandLine.cs">
-      <Link>Common\CommandLine.cs</Link>
-    </Compile>
-    <Compile Include="$(CommonPath)\CommandLineTraceHandler.cs">
-      <Link>Common\CommandLineTraceHandler.cs</Link>
-    </Compile>
-    <Compile Include="$(CommonPath)\ConsoleTraceListener.cs">
-      <Link>Common\ConsoleTraceListener.cs</Link>
-    </Compile>
+    <Compile Remove="$(BuildToolsPath)\ApiCompat\Program.cs" />
   </ItemGroup>
 
   <ItemGroup>
