@@ -17,12 +17,12 @@ using System.Reflection;
 
 namespace CompatibilityAnalyzer
 {
-    public class Analyzer
+    public class CciAssemblyCompatibilityAnalyzer : IAssemblyCompatibilityAnalyzer
     {
         private readonly TextWriter _log;
         private readonly string _reference;
 
-        public Analyzer(TextWriter log)
+        public CciAssemblyCompatibilityAnalyzer(TextWriter log)
         {
             _log = log;
             _reference = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7";
@@ -76,7 +76,7 @@ namespace CompatibilityAnalyzer
 
         private static CompositionHost GetCompositionHost()
         {
-            var configuration = new ContainerConfiguration().WithAssembly(typeof(Analyzer).GetTypeInfo().Assembly);
+            var configuration = new ContainerConfiguration().WithAssembly(typeof(CciAssemblyCompatibilityAnalyzer).GetTypeInfo().Assembly);
             return configuration.CreateContainer();
         }
 

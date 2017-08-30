@@ -14,7 +14,7 @@ namespace CompatibilityAnalyzer
 
         static async Task MainAsync()
         {
-            var analyzer = new Analyzer(Console.Out);
+            var analyzer = new CciAssemblyCompatibilityAnalyzer(Console.Out);
 
             using (var downloader = new NuGetPackageDownloader(@"https://api.nuget.org/v3/index.json"))
             {
