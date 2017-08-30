@@ -33,36 +33,40 @@ namespace CompatibilityAnalyzer
             });
         }
 
+        private HostEnvironment CreateHostEnvironment(NameTable nameTable)
+        {
+            var host = new HostEnvironment(nameTable)
+            {
+                ResolveAgainstRunningFramework = true,
+                UnifyToLibPath = s_unifyToLibPaths,
+                LoadErrorTreatment = ErrorTreatment.TreatAsWarning
+            };
+
+            host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(implHost_UnableToResolve);
+            host.AddLibPath(_reference);
+
+            return host;
+        }
+
         public void Analyze(IEnumerable<IAssemblyFile> version1Assemblies, IEnumerable<IAssemblyFile> version2Assemblies)
         {
-            BaselineDifferenceFilter filter = GetBaselineDifferenceFilter();
-            NameTable sharedNameTable = new NameTable();
-            HostEnvironment contractHost = new HostEnvironment(sharedNameTable);
-            contractHost.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(contractHost_UnableToResolve);
-            contractHost.ResolveAgainstRunningFramework = true;
-            contractHost.UnifyToLibPath = true;
-            contractHost.AddLibPath(_reference);
+            var filter = GetBaselineDifferenceFilter();
+            var sharedNameTable = new NameTable();
+
+            var contractHost = CreateHostEnvironment(sharedNameTable);
             var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies);
 
             if (s_ignoreDesignTimeFacades)
                 contractAssemblies = contractAssemblies.Where(a => !a.IsFacade());
 
-            HostEnvironment implHost = new HostEnvironment(sharedNameTable);
-            implHost.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(implHost_UnableToResolve);
-            implHost.ResolveAgainstRunningFramework = true;
-            implHost.UnifyToLibPath = s_unifyToLibPaths;
-            implHost.AddLibPath(_reference);
-            if (s_warnOnMissingAssemblies)
-                implHost.LoadErrorTreatment = ErrorTreatment.TreatAsWarning;
-
-            // The list of contractAssemblies already has the core assembly as the first one (if _contractCoreAssembly was specified).
-            IEnumerable<IAssembly> implAssemblies = implHost.LoadAssemblies(version2Assemblies);
+            var implHost = CreateHostEnvironment(sharedNameTable);
+            var implAssemblies = implHost.LoadAssemblies(version2Assemblies);
 
             // Exit after loading if the code is set to non-zero
             if (DifferenceWriter.ExitCode != 0)
                 return;
 
-            ICciDifferenceWriter writer = GetDifferenceWriter(_log, filter);
+            var writer = GetDifferenceWriter(_log, filter);
             writer.Write(s_implDirs, implAssemblies, s_contractSet, contractAssemblies);
         }
 
@@ -134,40 +138,32 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        private static IMappingDifferenceFilter GetDiffFilter(ICciFilter filter)
-        {
-            return new MappingDifferenceFilter(GetIncludeFilter(), filter);
-        }
-
-        private static Func<DifferenceType, bool> GetIncludeFilter()
-        {
-            return d => d != DifferenceType.Unchanged;
-        }
-
         private static ICciDifferenceWriter GetDifferenceWriter(TextWriter writer, IDifferenceFilter filter)
         {
-            CompositionHost container = GetCompositionHost();
+            var container = GetCompositionHost();
 
-            Func<IDifferenceRuleMetadata, bool> ruleFilter =
-                delegate (IDifferenceRuleMetadata ruleMetadata)
-                {
-                    if (ruleMetadata.MdilServicingRule && !s_mdil)
-                        return false;
-                    return true;
-                };
+            bool ruleFilter(IDifferenceRuleMetadata ruleMetadata)
+            {
+                if (ruleMetadata.MdilServicingRule && !s_mdil)
+                    return false;
+                return true;
+            };
 
             if (s_mdil && s_excludeNonBrowsable)
             {
                 Trace.TraceWarning("Enforcing MDIL servicing rules and exclusion of non-browsable types are both enabled, but they are not compatible so non-browsable types will not be excluded.");
             }
 
-            MappingSettings settings = new MappingSettings();
-            settings.Comparers = GetComparers();
-            settings.Filter = GetCciFilter(s_mdil, s_excludeNonBrowsable);
-            settings.DiffFilter = GetDiffFilter(settings.Filter);
-            settings.DiffFactory = new ElementDifferenceFactory(container, ruleFilter);
-            settings.GroupByAssembly = s_groupByAssembly;
-            settings.IncludeForwardedTypes = true;
+            var cciFilter = GetCciFilter(s_mdil, s_excludeNonBrowsable);
+            var settings = new MappingSettings
+            {
+                Comparers = GetComparers(),
+                Filter = cciFilter,
+                DiffFilter = new MappingDifferenceFilter(d => d != DifferenceType.Unchanged, cciFilter),
+                DiffFactory = new ElementDifferenceFactory(container, ruleFilter),
+                GroupByAssembly = s_groupByAssembly,
+                IncludeForwardedTypes = true
+            };
 
             if (filter == null)
             {
