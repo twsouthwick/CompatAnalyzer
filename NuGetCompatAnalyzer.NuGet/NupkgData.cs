@@ -1,5 +1,4 @@
-﻿using ApiCompat;
-using NuGet.Frameworks;
+﻿using NuGet.Frameworks;
 using NuGet.Packaging;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +6,7 @@ using System.Linq;
 
 namespace NuGetCompatAnalyzer
 {
-    internal class NupkgData
+    public class NupkgData
     {
         private readonly byte[] _data;
 

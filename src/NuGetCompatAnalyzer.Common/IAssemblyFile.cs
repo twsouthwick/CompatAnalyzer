@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace ApiCompat
+namespace NuGetCompatAnalyzer
 {
     public interface IAssemblyFile
     {

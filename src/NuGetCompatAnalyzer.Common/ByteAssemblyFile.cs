@@ -2,7 +2,7 @@
 
 namespace NuGetCompatAnalyzer
 {
-    internal class ByteAssemblyFile : ApiCompat.IAssemblyFile
+    public class ByteAssemblyFile : IAssemblyFile
     {
         private readonly byte[] _data;
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Cci;
 using Microsoft.Cci.Extensions;
+using NuGetCompatAnalyzer;
 using System.Collections.Generic;
 
 namespace ApiCompat

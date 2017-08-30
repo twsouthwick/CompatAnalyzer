@@ -2,7 +2,7 @@
 
 namespace NuGetCompatAnalyzer
 {
-    internal class FileAssemblyFile : ApiCompat.IAssemblyFile
+    public class FileAssemblyFile : IAssemblyFile
     {
         public FileAssemblyFile(string path)
         {

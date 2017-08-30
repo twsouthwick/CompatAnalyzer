@@ -1,5 +1,4 @@
-﻿using ApiCompat;
-using NuGet.Common;
+﻿using NuGet.Common;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NuGetCompatAnalyzer
 {
-    internal class NuGetPackageDownloader : IDisposable
+    public class NuGetPackageDownloader : IDisposable
     {
         private readonly HttpClientHandler _handler;
         private readonly HttpHandlerResourceV3 _httpResource;

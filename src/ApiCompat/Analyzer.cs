@@ -5,6 +5,7 @@ using Microsoft.Cci.Extensions;
 using Microsoft.Cci.Filters;
 using Microsoft.Cci.Mappings;
 using Microsoft.Cci.Writers;
+using NuGetCompatAnalyzer;
 using System;
 using System.Collections.Generic;
 using System.Composition;
