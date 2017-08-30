@@ -16,18 +16,6 @@ using System.Reflection;
 
 namespace ApiCompat
 {
-    public class ExportCciSettings
-    {
-        public static IEqualityComparer<ITypeReference> StaticSettings { get; set; }
-        public ExportCciSettings()
-        {
-            Settings = StaticSettings;
-        }
-
-        [Export(typeof(IEqualityComparer<ITypeReference>))]
-        public IEqualityComparer<ITypeReference> Settings { get; set; }
-    }
-
     public class Analyzer
     {
         private readonly TextWriter _log;
@@ -42,7 +30,7 @@ namespace ApiCompat
             });
         }
 
-        public void Analyze(IEnumerable<string> version1Assemblies, IEnumerable<string> version2Assemblies)
+        public void Analyze(IEnumerable<IAssemblyFile> version1Assemblies, IEnumerable<string> version2Assemblies)
         {
             BaselineDifferenceFilter filter = GetBaselineDifferenceFilter();
             NameTable sharedNameTable = new NameTable();
@@ -51,7 +39,7 @@ namespace ApiCompat
             contractHost.ResolveAgainstRunningFramework = true;
             contractHost.UnifyToLibPath = true;
             contractHost.AddLibPaths(HostEnvironment.SplitPaths(s_contractLibDirs));
-            IEnumerable<IAssembly> contractAssemblies = contractHost.LoadAssemblies(string.Join(";", version1Assemblies), s_contractCoreAssembly);
+            var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies);
 
             if (s_ignoreDesignTimeFacades)
                 contractAssemblies = contractAssemblies.Where(a => !a.IsFacade());
