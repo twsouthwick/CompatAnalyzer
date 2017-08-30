@@ -6,13 +6,18 @@ namespace CompatibilityAnalyzer
     internal class TemporaryFile : IDisposable
     {
         public TemporaryFile()
-            : this(Guid.NewGuid().ToString())
+            : this(System.IO.Path.GetTempFileName())
         {
         }
 
-        public TemporaryFile(string contents)
+        public TemporaryFile(string path)
+            : this(path, Guid.NewGuid().ToString())
         {
-            Path = System.IO.Path.GetTempFileName();
+        }
+
+        public TemporaryFile(string path, string contents)
+        {
+            Path = path;
             Contents = contents;
 
             File.WriteAllText(Path, Contents);

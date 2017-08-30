@@ -20,5 +20,20 @@ namespace CompatibilityAnalyzer
         public Stream OpenRead() => File.OpenRead(Path);
 
         public override string ToString() => Path;
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FileAssemblyFile other)
+            {
+                return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
+        }
     }
 }

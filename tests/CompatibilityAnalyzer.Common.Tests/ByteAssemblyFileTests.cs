@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Xunit;
@@ -55,10 +56,68 @@ namespace CompatibilityAnalyzer
             Assert.Throws<ArgumentNullException>("data", () => new ByteAssemblyFile(GeneratePath(), null));
         }
 
+        [Fact]
+        public void OtherTypeEquality()
+        {
+            var file = new ByteAssemblyFile(GeneratePath(), new byte[] { 1, 2 });
+
+            Assert.False(file.Equals(new NoOpAssemblyFile()));
+        }
+
+        [Fact]
+        public void HashCodeGeneration()
+        {
+            var path = GeneratePath();
+            var data = new byte[] { 1, 2 };
+
+            var file1 = new ByteAssemblyFile(path, data);
+            var file2 = new ByteAssemblyFile(path, data);
+            var file3 = new ByteAssemblyFile(GeneratePath(), data);
+            var file4 = new ByteAssemblyFile(path, new byte[] { 1, 2 });
+
+            Assert.Equal(file1.GetHashCode(), file2.GetHashCode());
+            Assert.NotEqual(file1.GetHashCode(), file3.GetHashCode());
+            Assert.NotEqual(file1.GetHashCode(), file4.GetHashCode());
+        }
+
+        [MemberData(nameof(FileInstances))]
+        [Theory]
+        public void FileEquality(IAssemblyFile file1, IAssemblyFile file2, bool expected)
+        {
+            Assert.Equal(expected, Equals(file1, file2));
+        }
+
+        public static IEnumerable<object[]> FileInstances()
+        {
+            var path1 = GeneratePath();
+            var path2 = GeneratePath();
+
+            var data1 = new byte[] { 1, 2, 3 };
+            var data2 = Array.Empty<byte>();
+
+            var file = new ByteAssemblyFile(GeneratePath(), new byte[] { 1, 2 });
+
+            yield return new object[] { file, file, true };
+            yield return new object[] { new ByteAssemblyFile(path1, data1), new ByteAssemblyFile(path1, data1), true };
+            yield return new object[] { new ByteAssemblyFile(path1, data2), new ByteAssemblyFile(path1, data1), false };
+            yield return new object[] { new ByteAssemblyFile("path", data2), new ByteAssemblyFile("path", data1), false };
+
+            // Check case sensitivies
+            yield return new object[] { new ByteAssemblyFile("path", data2), new ByteAssemblyFile("path", data2), true };
+            yield return new object[] { new ByteAssemblyFile("Path", data2), new ByteAssemblyFile("path", data2), false };
+        }
+
         private static string GeneratePath() => Path.Combine(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
         private static string GenerateContents() => Guid.NewGuid().ToString();
 
         private static byte[] GetBytes(string contents) => Encoding.UTF8.GetBytes(contents);
+
+        private class NoOpAssemblyFile : IAssemblyFile
+        {
+            public string Path => throw new NotImplementedException();
+
+            public Stream OpenRead() => throw new NotImplementedException();
+        }
     }
 }
