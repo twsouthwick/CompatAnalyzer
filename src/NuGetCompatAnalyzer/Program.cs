@@ -1,5 +1,7 @@
 ﻿using System;
-using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NuGetCompatAnalyzer
 {
@@ -7,28 +9,31 @@ namespace NuGetCompatAnalyzer
     {
         static void Main(string[] args)
         {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        static async Task MainAsync()
+        {
             var analyzer = new ApiCompat.Analyzer(Console.Out);
 
-            foreach (var name in analyzer.GetRules())
+            using (var downloader = new NuGetPackageDownloader(@"https://api.nuget.org/v3/index.json"))
             {
-                Console.WriteLine(name);
+                var result = await downloader.DownloadAsync("Newtonsoft.Json", "10.0.3", CancellationToken.None);
+
+                foreach (var framework in result.GetFrameworks())
+                {
+                    Console.WriteLine(framework);
+
+                    foreach (var assembly in result.GetAssemblies(framework))
+                    {
+                        Console.WriteLine($"\t{assembly.Path}");
+                    }
+                }
             }
 
             var _604 = @"C:\Users\tasou\.nuget\packages\newtonsoft.json\6.0.4\lib\net45\Newtonsoft.Json.dll";
             var _10 = @"C:\Users\tasou\.nuget\packages\newtonsoft.json\10.0.3\lib\net45\Newtonsoft.Json.dll";
-            analyzer.Analyze(new[] { new FileAssemblyFile(_604) }, new[] { new FileAssemblyFile(_10) });
-        }
-
-        private class FileAssemblyFile : ApiCompat.IAssemblyFile
-        {
-            public FileAssemblyFile(string path)
-            {
-                Path = path;
-            }
-
-            public string Path { get; }
-
-            public Stream OpenReadAsync() => File.OpenRead(Path);
+            //analyzer.Analyze(new[] { new FileAssemblyFile(_604) }, new[] { new FileAssemblyFile(_10) });
         }
     }
 }
