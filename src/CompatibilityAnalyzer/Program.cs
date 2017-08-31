@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,6 +41,19 @@ namespace CompatibilityAnalyzer
         public async Task RunAsync()
         {
             var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None);
+            var result2 = await _downloader.DownloadAsync("Newtonsoft.Json", "6.0.8", CancellationToken.None);
+
+            var files = new List<IFile>();
+
+            var list1 = result.GetFrameworks()
+                .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
+                .ToHashSet();
+
+            var list2 = result2.GetFrameworks()
+                .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
+                .ToHashSet();
+
+            list1.RemoveWhere(list2.Contains);
 
             foreach (var framework in result.GetFrameworks())
             {
@@ -47,12 +62,14 @@ namespace CompatibilityAnalyzer
                 foreach (var assembly in result.GetAssemblies(framework))
                 {
                     Console.WriteLine($"\t{assembly.Path}");
+
+                    files.Add(assembly);
                 }
             }
 
-            var _604 = @"C:\Users\tasou\.nuget\packages\newtonsoft.json\6.0.4\lib\net45\Newtonsoft.Json.dll";
-            var _10 = @"C:\Users\tasou\.nuget\packages\newtonsoft.json\10.0.3\lib\net45\Newtonsoft.Json.dll";
-            //analyzer.Analyze(new[] { new FileAssemblyFile(_604) }, new[] { new FileAssemblyFile(_10) });
+            Console.WriteLine($"Comparing {files[0]} and {files[1]}");
+
+            _analyzer.Analyze(new[] { files[0] }, new[] { files[1] });
         }
     }
 }
