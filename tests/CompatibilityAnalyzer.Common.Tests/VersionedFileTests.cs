@@ -5,31 +5,31 @@ using Xunit;
 
 namespace CompatibilityAnalyzer
 {
-    public class NuGetAssemblyFileTests
+    public class VersionedFileTests
     {
         [Fact]
         public void NullOtherAssemblyFile()
         {
-            Assert.Throws<ArgumentNullException>("other", () => new NuGetAssemblyFile(null, "1.0.0"));
+            Assert.Throws<ArgumentNullException>("other", () => new VersionedFile(null, "1.0.0"));
         }
 
         [Fact]
         public void NullVersion()
         {
-            Assert.Throws<ArgumentNullException>("version", () => new NuGetAssemblyFile(new PathOnlyAssemblyFile(), null));
+            Assert.Throws<ArgumentNullException>("version", () => new VersionedFile(new PathOnlyAssemblyFile(), null));
         }
 
         [Fact]
         public void EmptyStringVersion()
         {
-            Assert.Throws<ArgumentOutOfRangeException>("version", () => new NuGetAssemblyFile(new PathOnlyAssemblyFile(), string.Empty));
+            Assert.Throws<ArgumentOutOfRangeException>("version", () => new VersionedFile(new PathOnlyAssemblyFile(), string.Empty));
         }
 
         [Fact]
         public void PathIsCorrect()
         {
             var pathOnly = new PathOnlyAssemblyFile();
-            var nugetFile = new NuGetAssemblyFile(pathOnly, "1.0.0");
+            var nugetFile = new VersionedFile(pathOnly, "1.0.0");
 
             Assert.Equal(pathOnly.Path, nugetFile.Path);
         }
@@ -38,7 +38,7 @@ namespace CompatibilityAnalyzer
         public void FileIsSame()
         {
             var pathOnly = new PathOnlyAssemblyFile();
-            var nugetFile = new NuGetAssemblyFile(pathOnly, "1.0.0");
+            var nugetFile = new VersionedFile(pathOnly, "1.0.0");
 
             Assert.Same(pathOnly.OpenRead(), nugetFile.OpenRead());
         }
@@ -76,7 +76,7 @@ namespace CompatibilityAnalyzer
         {
             var version = "1.0.0";
             var pathOnly = new PathOnlyAssemblyFile();
-            var nugetFile = new NuGetAssemblyFile(pathOnly, version);
+            var nugetFile = new VersionedFile(pathOnly, version);
 
             Assert.Equal(version, nugetFile.Version);
         }
@@ -86,7 +86,7 @@ namespace CompatibilityAnalyzer
         {
             var version = "1.0.0";
             var pathOnly = new PathOnlyAssemblyFile();
-            var nugetFile = new NuGetAssemblyFile(pathOnly, version);
+            var nugetFile = new VersionedFile(pathOnly, version);
 
             Assert.Equal($"{pathOnly.Path} [{version}]", nugetFile.ToString());
         }
@@ -97,12 +97,12 @@ namespace CompatibilityAnalyzer
             var version1 = "1.0.0";
             var version2 = "1.0.2";
 
-            yield return new object[] { new NuGetAssemblyFile(other, version1), new NuGetAssemblyFile(other, version1), true };
-            yield return new object[] { new NuGetAssemblyFile(new AssemblyFile(1), version1), new NuGetAssemblyFile(new AssemblyFile(1), version1), true };
-            yield return new object[] { new NuGetAssemblyFile(new AssemblyFile(2), version1), new NuGetAssemblyFile(new AssemblyFile(1), version1), false };
-            yield return new object[] { new NuGetAssemblyFile(new AssemblyFile(1), version1), new NuGetAssemblyFile(new AssemblyFile(1), version2), false };
-            yield return new object[] { new NuGetAssemblyFile(new AssemblyFile(1), "0.1"), new NuGetAssemblyFile(new AssemblyFile(1), "0.1"), true };
-            yield return new object[] { new NuGetAssemblyFile(new AssemblyFile(1), "0.1-Pre"), new NuGetAssemblyFile(new AssemblyFile(1), "0.1-pre"), true };
+            yield return new object[] { new VersionedFile(other, version1), new VersionedFile(other, version1), true };
+            yield return new object[] { new VersionedFile(new AssemblyFile(1), version1), new VersionedFile(new AssemblyFile(1), version1), true };
+            yield return new object[] { new VersionedFile(new AssemblyFile(2), version1), new VersionedFile(new AssemblyFile(1), version1), false };
+            yield return new object[] { new VersionedFile(new AssemblyFile(1), version1), new VersionedFile(new AssemblyFile(1), version2), false };
+            yield return new object[] { new VersionedFile(new AssemblyFile(1), "0.1"), new VersionedFile(new AssemblyFile(1), "0.1"), true };
+            yield return new object[] { new VersionedFile(new AssemblyFile(1), "0.1-Pre"), new VersionedFile(new AssemblyFile(1), "0.1-pre"), true };
         }
 
         private class AssemblyFile : IFile

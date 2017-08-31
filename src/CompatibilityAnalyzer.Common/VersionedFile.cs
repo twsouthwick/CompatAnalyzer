@@ -3,11 +3,11 @@ using System.IO;
 
 namespace CompatibilityAnalyzer
 {
-    public class NuGetAssemblyFile : IFile
+    public class VersionedFile : IFile
     {
         private readonly IFile _other;
 
-        public NuGetAssemblyFile(IFile other, string version)
+        public VersionedFile(IFile other, string version)
         {
             _other = other ?? throw new ArgumentNullException(nameof(other));
             Version = version ?? throw new ArgumentNullException(nameof(version));
@@ -28,7 +28,7 @@ namespace CompatibilityAnalyzer
 
         public override bool Equals(object obj)
         {
-            if (obj is NuGetAssemblyFile other)
+            if (obj is VersionedFile other)
             {
                 return string.Equals(Version, other.Version, StringComparison.OrdinalIgnoreCase)
                     && Equals(other._other, _other);

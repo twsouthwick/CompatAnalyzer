@@ -51,7 +51,7 @@ namespace CompatibilityAnalyzer
                     {
                         entryStream.CopyTo(ms);
 
-                        yield return new NuGetAssemblyFile(new ByteFile(lib, ms.ToArray()), Version);
+                        yield return new VersionedFile(new ByteFile(lib, ms.ToArray()), Version);
                     }
                 }
             }
