@@ -58,35 +58,17 @@ namespace CompatibilityAnalyzer
             Assert.Throws<ArgumentNullException>("path", () => new FileAssemblyFile(null));
         }
 
-        [Fact]
-        public void HashCodeGeneration()
+        [MemberData(nameof(FileInstances))]
+        [Theory]
+        public void HashCodeGeneration(IAssemblyFile file1, IAssemblyFile file2, bool expected)
         {
-            using (var temp1 = new TemporaryFile())
-            using (var temp2 = new TemporaryFile())
+            if (expected)
             {
-                var file1 = new FileAssemblyFile(temp1.Path);
-                var file1b = new FileAssemblyFile(temp1.Path);
-                var file2 = new FileAssemblyFile(temp2.Path);
-
-                Assert.Equal(file1.GetHashCode(), file1b.GetHashCode());
-                Assert.NotEqual(file1.GetHashCode(), file2.GetHashCode());
-                Assert.NotEqual(file1.GetHashCode(), file2.GetHashCode());
-                Assert.NotEqual(file1.GetHashCode(), file2.GetHashCode());
+                Assert.Equal(file1.GetHashCode(), file2.GetHashCode());
             }
-        }
-
-        [Fact]
-        public void HashCodeGenerationCaseInsensitive()
-        {
-            var guid = Guid.NewGuid().ToString();
-
-            using (var temp_lower = new TemporaryFile(Path.Combine(Path.GetTempPath(), $"{guid}-something.Txt")))
-            using (var temp_upper = new TemporaryFile(Path.Combine(Path.GetTempPath(), $"{guid}-Something.Txt")))
+            else
             {
-                var lower = new FileAssemblyFile(temp_lower.Path);
-                var upper = new FileAssemblyFile(temp_upper.Path);
-
-                Assert.Equal(lower.GetHashCode(), upper.GetHashCode());
+                Assert.NotEqual(file1.GetHashCode(), file2.GetHashCode());
             }
         }
 
@@ -94,7 +76,14 @@ namespace CompatibilityAnalyzer
         [Theory]
         public void FileEquality(IAssemblyFile file1, IAssemblyFile file2, bool expected)
         {
-            Assert.Equal(expected, Equals(file1, file2));
+            if(expected)
+            {
+                Assert.Equal(file1, file2);
+            }
+            else
+            {
+                Assert.NotEqual(file1, file2);
+            }
         }
 
         public static IEnumerable<object[]> FileInstances()

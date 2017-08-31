@@ -25,5 +25,21 @@ namespace CompatibilityAnalyzer
         public Stream OpenRead() => _other.OpenRead();
 
         public override string ToString() => $"{Path} [{Version}]";
+
+        public override bool Equals(object obj)
+        {
+            if (obj is NuGetAssemblyFile other)
+            {
+                return string.Equals(Version, other.Version, StringComparison.OrdinalIgnoreCase)
+                    && Equals(other._other, _other);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return _other.GetHashCode() ^ StringComparer.OrdinalIgnoreCase.GetHashCode(Version);
+        }
     }
 }

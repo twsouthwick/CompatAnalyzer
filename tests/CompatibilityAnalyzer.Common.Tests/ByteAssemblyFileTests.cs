@@ -64,27 +64,32 @@ namespace CompatibilityAnalyzer
             Assert.False(file.Equals(new NoOpAssemblyFile()));
         }
 
-        [Fact]
-        public void HashCodeGeneration()
+        [MemberData(nameof(FileInstances))]
+        [Theory]
+        public void HashCodeGeneration(IAssemblyFile file1, IAssemblyFile file2, bool expected)
         {
-            var path = GeneratePath();
-            var data = new byte[] { 1, 2 };
-
-            var file1 = new ByteAssemblyFile(path, data);
-            var file2 = new ByteAssemblyFile(path, data);
-            var file3 = new ByteAssemblyFile(GeneratePath(), data);
-            var file4 = new ByteAssemblyFile(path, new byte[] { 1, 2 });
-
-            Assert.Equal(file1.GetHashCode(), file2.GetHashCode());
-            Assert.NotEqual(file1.GetHashCode(), file3.GetHashCode());
-            Assert.NotEqual(file1.GetHashCode(), file4.GetHashCode());
+            if (expected)
+            {
+                Assert.Equal(file1.GetHashCode(), file2.GetHashCode());
+            }
+            else
+            {
+                Assert.NotEqual(file1.GetHashCode(), file2.GetHashCode());
+            }
         }
 
         [MemberData(nameof(FileInstances))]
         [Theory]
         public void FileEquality(IAssemblyFile file1, IAssemblyFile file2, bool expected)
         {
-            Assert.Equal(expected, Equals(file1, file2));
+            if (expected)
+            {
+                Assert.Equal(file1, file2);
+            }
+            else
+            {
+                Assert.NotEqual(file1, file2);
+            }
         }
 
         public static IEnumerable<object[]> FileInstances()
