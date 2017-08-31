@@ -40,36 +40,37 @@ namespace CompatibilityAnalyzer
 
         public async Task RunAsync()
         {
-            var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None);
-            var result2 = await _downloader.DownloadAsync("Newtonsoft.Json", "6.0.8", CancellationToken.None);
-
-            var files = new List<IFile>();
-
-            var list1 = result.GetFrameworks()
-                .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
-                .ToHashSet();
-
-            var list2 = result2.GetFrameworks()
-                .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
-                .ToHashSet();
-
-            list1.RemoveWhere(list2.Contains);
-
-            foreach (var framework in result.GetFrameworks())
+            using (var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None))
+            using (var result2 = await _downloader.DownloadAsync("Newtonsoft.Json", "6.0.8", CancellationToken.None))
             {
-                Console.WriteLine(framework);
+                var files = new List<IFile>();
 
-                foreach (var assembly in result.GetAssemblies(framework))
+                var list1 = result.Frameworks
+                    .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
+                    .ToHashSet();
+
+                var list2 = result2.Frameworks
+                    .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
+                    .ToHashSet();
+
+                list1.RemoveWhere(list2.Contains);
+
+                foreach (var framework in result.Frameworks)
                 {
-                    Console.WriteLine($"\t{assembly.Path}");
+                    Console.WriteLine(framework);
 
-                    files.Add(assembly);
+                    foreach (var assembly in result.GetAssemblies(framework))
+                    {
+                        Console.WriteLine($"\t{assembly.Path}");
+
+                        files.Add(assembly);
+                    }
                 }
+
+                Console.WriteLine($"Comparing {files[0]} and {files[1]}");
+
+                _analyzer.Analyze(new[] { files[0] }, new[] { files[1] });
             }
-
-            Console.WriteLine($"Comparing {files[0]} and {files[1]}");
-
-            _analyzer.Analyze(new[] { files[0] }, new[] { files[1] });
         }
     }
 }

@@ -32,7 +32,7 @@ namespace CompatibilityAnalyzer
             _handler.Dispose();
         }
 
-        public async Task<NupkgData> DownloadAsync(string id, string version, CancellationToken token)
+        public async Task<IPackage> DownloadAsync(string id, string version, CancellationToken token)
         {
             var finder = await _repository.GetResourceAsync<FindPackageByIdResource>();
             var nugetVersion = NuGetVersion.Parse(version);
@@ -41,7 +41,7 @@ namespace CompatibilityAnalyzer
             {
                 if (await finder.CopyNupkgToStreamAsync(id, nugetVersion, ms, _cache, _log, token))
                 {
-                    return new NupkgData(id, version, ms.ToArray());
+                    return new NupkgPackage(id, version, ms.ToArray());
                 }
 
                 throw new InvalidOperationException("Could not copy nupkg");
