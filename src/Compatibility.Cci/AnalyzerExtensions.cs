@@ -6,7 +6,7 @@ namespace CompatibilityAnalyzer
 {
     internal static class AnalyzerExtensions
     {
-        public static IEnumerable<IAssembly> LoadAssemblies(this HostEnvironment host, IEnumerable<IAssemblyFile> files)
+        public static IEnumerable<IAssembly> LoadAssemblies(this HostEnvironment host, IEnumerable<IFile> files)
         {
             var result = new List<IAssembly>();
 

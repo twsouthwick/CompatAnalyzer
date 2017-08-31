@@ -48,7 +48,7 @@ namespace CompatibilityAnalyzer
             return host;
         }
 
-        public void Analyze(IEnumerable<IAssemblyFile> version1Assemblies, IEnumerable<IAssemblyFile> version2Assemblies)
+        public void Analyze(IEnumerable<IFile> version1Assemblies, IEnumerable<IFile> version2Assemblies)
         {
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();

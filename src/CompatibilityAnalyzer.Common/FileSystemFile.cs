@@ -3,9 +3,9 @@ using System.IO;
 
 namespace CompatibilityAnalyzer
 {
-    public class FileAssemblyFile : IAssemblyFile
+    public class FileSystemFile : IFile
     {
-        public FileAssemblyFile(string path)
+        public FileSystemFile(string path)
         {
             Path = path ?? throw new ArgumentNullException(nameof(path));
 
@@ -23,7 +23,7 @@ namespace CompatibilityAnalyzer
 
         public override bool Equals(object obj)
         {
-            if (obj is FileAssemblyFile other)
+            if (obj is FileSystemFile other)
             {
                 return string.Equals(Path, other.Path, StringComparison.OrdinalIgnoreCase);
             }

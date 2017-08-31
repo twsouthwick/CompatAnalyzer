@@ -45,7 +45,7 @@ namespace CompatibilityAnalyzer
 
         [MemberData(nameof(FileInstances))]
         [Theory]
-        public void HashCodeGeneration(IAssemblyFile file1, IAssemblyFile file2, bool expected)
+        public void HashCodeGeneration(IFile file1, IFile file2, bool expected)
         {
             if (expected)
             {
@@ -59,7 +59,7 @@ namespace CompatibilityAnalyzer
 
         [MemberData(nameof(FileInstances))]
         [Theory]
-        public void FileEquality(IAssemblyFile file1, IAssemblyFile file2, bool expected)
+        public void FileEquality(IFile file1, IFile file2, bool expected)
         {
             if (expected)
             {
@@ -105,7 +105,7 @@ namespace CompatibilityAnalyzer
             yield return new object[] { new NuGetAssemblyFile(new AssemblyFile(1), "0.1-Pre"), new NuGetAssemblyFile(new AssemblyFile(1), "0.1-pre"), true };
         }
 
-        private class AssemblyFile : IAssemblyFile
+        private class AssemblyFile : IFile
         {
             private readonly int _count;
 
@@ -134,7 +134,7 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        private class PathOnlyAssemblyFile : IAssemblyFile
+        private class PathOnlyAssemblyFile : IFile
         {
             private readonly Stream _stream;
 

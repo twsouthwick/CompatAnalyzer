@@ -3,11 +3,11 @@ using System.IO;
 
 namespace CompatibilityAnalyzer
 {
-    public class NuGetAssemblyFile : IAssemblyFile
+    public class NuGetAssemblyFile : IFile
     {
-        private readonly IAssemblyFile _other;
+        private readonly IFile _other;
 
-        public NuGetAssemblyFile(IAssemblyFile other, string version)
+        public NuGetAssemblyFile(IFile other, string version)
         {
             _other = other ?? throw new ArgumentNullException(nameof(other));
             Version = version ?? throw new ArgumentNullException(nameof(version));

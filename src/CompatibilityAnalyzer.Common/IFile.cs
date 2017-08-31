@@ -2,7 +2,7 @@
 
 namespace CompatibilityAnalyzer
 {
-    public interface IAssemblyFile
+    public interface IFile
     {
         string Path { get; }
 

@@ -31,7 +31,7 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        public IEnumerable<IAssemblyFile> GetAssemblies(NuGetFramework framework)
+        public IEnumerable<IFile> GetAssemblies(NuGetFramework framework)
         {
             using (var stream = new MemoryStream(_data))
             using (var reader = new PackageArchiveReader(stream))
@@ -51,7 +51,7 @@ namespace CompatibilityAnalyzer
                     {
                         entryStream.CopyTo(ms);
 
-                        yield return new NuGetAssemblyFile(new ByteAssemblyFile(lib, ms.ToArray()), Version);
+                        yield return new NuGetAssemblyFile(new ByteFile(lib, ms.ToArray()), Version);
                     }
                 }
             }

@@ -3,9 +3,9 @@ using System.IO;
 
 namespace CompatibilityAnalyzer
 {
-    public class ByteAssemblyFile : IAssemblyFile
+    public class ByteFile : IFile
     {
-        public ByteAssemblyFile(string path, byte[] data)
+        public ByteFile(string path, byte[] data)
         {
             Data = data ?? throw new ArgumentNullException(nameof(data));
             Path = path ?? throw new ArgumentNullException(nameof(path));
@@ -31,7 +31,7 @@ namespace CompatibilityAnalyzer
                 return true;
             }
 
-            if (obj is ByteAssemblyFile other)
+            if (obj is ByteFile other)
             {
                 return ReferenceEquals(Data, other.Data)
                     && string.Equals(Path, other.Path, StringComparison.Ordinal);

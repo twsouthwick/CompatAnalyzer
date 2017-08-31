@@ -5,14 +5,14 @@ using Xunit;
 
 namespace CompatibilityAnalyzer
 {
-    public class FileAssemblyFileTests
+    public class FileSystemFileTests
     {
         [Fact]
         public void FilePath()
         {
             using (var temp = new TemporaryFile())
             {
-                var file = new FileAssemblyFile(temp.Path);
+                var file = new FileSystemFile(temp.Path);
 
                 Assert.Equal(temp.Path, file.Path);
             }
@@ -23,7 +23,7 @@ namespace CompatibilityAnalyzer
         {
             using (var temp = new TemporaryFile())
             {
-                var file = new FileAssemblyFile(temp.Path);
+                var file = new FileSystemFile(temp.Path);
 
                 Assert.Equal(temp.Path, file.ToString());
             }
@@ -34,7 +34,7 @@ namespace CompatibilityAnalyzer
         {
             using (var temp = new TemporaryFile())
             {
-                var file = new FileAssemblyFile(temp.Path);
+                var file = new FileSystemFile(temp.Path);
 
                 using (var stream = file.OpenRead())
                 using (var reader = new StreamReader(stream))
@@ -49,18 +49,18 @@ namespace CompatibilityAnalyzer
         [Fact]
         public void InvalidFile()
         {
-            Assert.Throws<FileNotFoundException>(() => new FileAssemblyFile("notafile.txt"));
+            Assert.Throws<FileNotFoundException>(() => new FileSystemFile("notafile.txt"));
         }
 
         [Fact]
         public void NullFile()
         {
-            Assert.Throws<ArgumentNullException>("path", () => new FileAssemblyFile(null));
+            Assert.Throws<ArgumentNullException>("path", () => new FileSystemFile(null));
         }
 
         [MemberData(nameof(FileInstances))]
         [Theory]
-        public void HashCodeGeneration(IAssemblyFile file1, IAssemblyFile file2, bool expected)
+        public void HashCodeGeneration(IFile file1, IFile file2, bool expected)
         {
             if (expected)
             {
@@ -74,7 +74,7 @@ namespace CompatibilityAnalyzer
 
         [MemberData(nameof(FileInstances))]
         [Theory]
-        public void FileEquality(IAssemblyFile file1, IAssemblyFile file2, bool expected)
+        public void FileEquality(IFile file1, IFile file2, bool expected)
         {
             if(expected)
             {
@@ -95,12 +95,12 @@ namespace CompatibilityAnalyzer
             using (var temp3_lower = new TemporaryFile(Path.Combine(Path.GetTempPath(), $"{guid}-something.Txt")))
             using (var temp3_upper = new TemporaryFile(Path.Combine(Path.GetTempPath(), $"{guid}-Something.Txt")))
             {
-                var file = new FileAssemblyFile(temp1.Path);
+                var file = new FileSystemFile(temp1.Path);
 
                 yield return new object[] { file, file, true };
-                yield return new object[] { new FileAssemblyFile(temp1.Path), new FileAssemblyFile(temp1.Path), true };
-                yield return new object[] { new FileAssemblyFile(temp1.Path), new FileAssemblyFile(temp2.Path), false };
-                yield return new object[] { new FileAssemblyFile(temp3_lower.Path), new FileAssemblyFile(temp3_upper.Path), true };
+                yield return new object[] { new FileSystemFile(temp1.Path), new FileSystemFile(temp1.Path), true };
+                yield return new object[] { new FileSystemFile(temp1.Path), new FileSystemFile(temp2.Path), false };
+                yield return new object[] { new FileSystemFile(temp3_lower.Path), new FileSystemFile(temp3_upper.Path), true };
             }
         }
     }
