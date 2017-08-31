@@ -13,11 +13,11 @@ namespace CompatibilityAnalyzer
 
             builder.RegisterType<NuGetPackageDownloader>()
                 .AsSelf()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<TextWriterLogger>()
                 .As<ILogger>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
 
             builder.RegisterInstance(GetSettings());
         }

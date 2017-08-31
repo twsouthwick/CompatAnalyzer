@@ -8,7 +8,7 @@ namespace CompatibilityAnalyzer
         {
             builder.RegisterType<CciAssemblyCompatibilityAnalyzer>()
                 .As<IAssemblyCompatibilityAnalyzer>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
         }
     }
 }
