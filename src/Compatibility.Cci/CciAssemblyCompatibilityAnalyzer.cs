@@ -70,12 +70,12 @@ namespace CompatibilityAnalyzer
             writer.Write(s_implDirs, implAssemblies, s_contractSet, contractAssemblies);
         }
 
-        public IEnumerable<string> GetRules()
+        public IEnumerable<CompatibilityRule> GetRules()
         {
             var c = GetCompositionHost();
             var rules = c.GetExports<IDifferenceRule>();
 
-            return rules.Select(r => r.GetType().Name).ToList();
+            return rules.Select(r => new CompatibilityRule(r.GetType().Name)).ToList();
         }
 
         private static CompositionHost GetCompositionHost()

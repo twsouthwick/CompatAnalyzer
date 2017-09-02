@@ -6,6 +6,6 @@ namespace CompatibilityAnalyzer
     {
         void Analyze(IEnumerable<IFile> version1Assemblies, IEnumerable<IFile> version2Assemblies);
 
-        IEnumerable<string> GetRules();
+        IEnumerable<CompatibilityRule> GetRules();
     }
 }
