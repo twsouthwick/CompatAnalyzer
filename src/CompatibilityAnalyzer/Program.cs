@@ -11,7 +11,7 @@ namespace CompatibilityAnalyzer
     internal class Program
     {
         private readonly IAssemblyCompatibilityAnalyzer _analyzer;
-        private readonly NuGetPackageDownloader _downloader;
+        private readonly INuGetPackageProvider _packageProvider;
 
         private static void Main(string[] args)
         {
@@ -32,16 +32,16 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        public Program(IAssemblyCompatibilityAnalyzer analyzer, NuGetPackageDownloader downloader)
+        public Program(IAssemblyCompatibilityAnalyzer analyzer, INuGetPackageProvider packageProvider)
         {
             _analyzer = analyzer;
-            _downloader = downloader;
+            _packageProvider = packageProvider;
         }
 
         public async Task RunAsync()
         {
-            using (var result = await _downloader.DownloadAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None))
-            using (var result2 = await _downloader.DownloadAsync("Newtonsoft.Json", "6.0.8", CancellationToken.None))
+            using (var result = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None))
+            using (var result2 = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "6.0.8", CancellationToken.None))
             {
                 var files = new List<IFile>();
 

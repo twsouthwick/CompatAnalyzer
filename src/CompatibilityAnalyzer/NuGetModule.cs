@@ -12,7 +12,7 @@ namespace CompatibilityAnalyzer
                     .SingleInstance();
 
             builder.RegisterType<NuGetPackageDownloader>()
-                .AsSelf()
+                .As<INuGetPackageProvider>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<TextWriterLogger>()

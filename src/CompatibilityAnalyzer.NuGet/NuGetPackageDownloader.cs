@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CompatibilityAnalyzer
 {
-    public class NuGetPackageDownloader : IDisposable
+    public class NuGetPackageDownloader : IDisposable, INuGetPackageProvider
     {
         private readonly HttpClientHandler _handler;
         private readonly HttpHandlerResourceV3 _httpResource;
@@ -32,7 +32,7 @@ namespace CompatibilityAnalyzer
             _handler.Dispose();
         }
 
-        public async Task<IPackage> DownloadAsync(string id, string version, CancellationToken token)
+        public async Task<IPackage> GetPackageAsync(string id, string version, CancellationToken token)
         {
             var finder = await _repository.GetResourceAsync<FindPackageByIdResource>();
             var nugetVersion = NuGetVersion.Parse(version);
