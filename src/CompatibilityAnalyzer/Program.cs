@@ -41,19 +41,22 @@ namespace CompatibilityAnalyzer
         public async Task RunAsync()
         {
             using (var result = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None))
-            using (var result2 = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "6.0.8", CancellationToken.None))
+            using (var result2 = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "10.0.1", CancellationToken.None))
             {
                 var files = new List<IFile>();
 
-                var list1 = result.Frameworks
+                var list1a = result.Frameworks
                     .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
                     .ToHashSet();
+
+                    var list1b = list1a.ToHashSet();
 
                 var list2 = result2.Frameworks
                     .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
                     .ToHashSet();
 
-                list1.RemoveWhere(list2.Contains);
+                list1a.RemoveWhere(list2.Contains);
+                list2.RemoveWhere(list1b.Contains);
 
                 foreach (var framework in result.Frameworks)
                 {

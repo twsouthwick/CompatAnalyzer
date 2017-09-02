@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using NuGet.Common;
 using NuGet.Protocol.Core.Types;
 
@@ -9,9 +10,10 @@ namespace CompatibilityAnalyzer
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<SourceCacheContext>()
-                    .SingleInstance();
+                .SingleInstance();
 
-            builder.RegisterType<NuGetPackageDownloader>()
+            // builder.RegisterType<NuGetPackageDownloader>()
+            builder.RegisterType<LocalNuGetPackageProvider>()
                 .As<INuGetPackageProvider>()
                 .InstancePerLifetimeScope();
 
@@ -26,7 +28,8 @@ namespace CompatibilityAnalyzer
         {
             return new NuGetDownloaderSettings
             {
-                Feed = @"https://api.nuget.org/v3/index.json"
+                // Feed = @"https://api.nuget.org/v3/index.json"
+                Feed = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
             };
         }
     }
