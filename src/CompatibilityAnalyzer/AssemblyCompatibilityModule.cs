@@ -9,6 +9,10 @@ namespace CompatibilityAnalyzer
             builder.RegisterType<CciAssemblyCompatibilityAnalyzer>()
                 .As<IAssemblyCompatibilityAnalyzer>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<ZipFileReferenceAssemblyProvider>()
+                .As<IReferenceAssemblyProvider>()
+                .SingleInstance();
         }
     }
 }
