@@ -11,12 +11,8 @@ namespace CompatibilityAnalyzer
     internal class Program
     {
         private readonly IEnumerable<IAnalyzerRule> _rules;
+        private readonly INuGetPackageProvider _packageProvider;
         private readonly TextWriter _writer;
-
-        public Program(IEnumerable<IAnalyzerRule> rules)
-        {
-            _rules = rules;
-        }
 
         private static void Main(string[] args)
         {
@@ -38,19 +34,24 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        public Program(IEnumerable<IAnalyzerRule> rules, TextWriter writer)
+        public Program(IEnumerable<IAnalyzerRule> rules, TextWriter writer, INuGetPackageProvider packageProvider)
         {
             _rules = rules;
             _writer = writer;
+            _packageProvider = packageProvider;
         }
 
         public async Task RunAsync()
         {
-            foreach (var rule in _rules)
+            using (var updated = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "10.0.2", CancellationToken.None))
+            using (var original = await _packageProvider.GetPackageAsync("Newtonsoft.Json", "10.0.1", CancellationToken.None))
             {
-                _writer.Write(rule.Name);
+                foreach (var rule in _rules)
+                {
+                    _writer.Write(rule.Name);
 
-                await rule.RunRuleAsync(CancellationToken.None);
+                    await rule.RunRuleAsync(original, updated, CancellationToken.None);
+                }
             }
         }
     }

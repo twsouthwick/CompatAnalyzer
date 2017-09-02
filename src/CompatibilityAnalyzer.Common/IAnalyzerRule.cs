@@ -7,6 +7,6 @@ namespace CompatibilityAnalyzer
     {
         string Name { get; }
 
-        Task RunRuleAsync(CancellationToken token);
+        Task RunRuleAsync(IPackage original, IPackage updated, CancellationToken token);
     }
 }
