@@ -17,6 +17,7 @@ namespace CompatibilityAnalyzer
 
             _reader = new PackageArchiveReader(new MemoryStream(data));
             Frameworks = _reader.GetSupportedFrameworks()
+                .Select(f => new WrappedNuGetFramework(f))
                 .ToList();
         }
 
@@ -24,17 +25,17 @@ namespace CompatibilityAnalyzer
 
         public string Version { get; }
 
-        public IReadOnlyCollection<NuGetFramework> Frameworks { get; }
+        public IReadOnlyCollection<INuGetFramework> Frameworks { get; }
 
         public void Dispose()
         {
             _reader.Dispose();
         }
 
-        public IEnumerable<IFile> GetAssemblies(NuGetFramework framework)
+        public IEnumerable<IFile> GetAssemblies(INuGetFramework framework)
         {
             var libs = _reader.GetLibItems()
-                .FirstOrDefault(i => i.TargetFramework == framework);
+                .FirstOrDefault(i => i.TargetFramework == framework.AsFramework());
 
             if (libs == null)
             {

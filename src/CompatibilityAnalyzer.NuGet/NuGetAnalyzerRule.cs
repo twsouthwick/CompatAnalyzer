@@ -27,12 +27,14 @@ namespace CompatibilityAnalyzer
                 var files = new List<IFile>();
 
                 var list1a = result.Frameworks
+                    .Select(f => f.AsFramework())
                     .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
                     .ToHashSet();
 
                 var list1b = list1a.ToHashSet();
 
                 var list2 = result2.Frameworks
+                    .Select(f => f.AsFramework())
                     .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
                     .ToHashSet();
 
