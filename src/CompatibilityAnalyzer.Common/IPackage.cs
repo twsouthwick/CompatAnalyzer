@@ -9,8 +9,8 @@ namespace CompatibilityAnalyzer
 
         string Version { get; }
 
-        IReadOnlyCollection<INuGetFramework> Frameworks { get; }
+        IReadOnlyCollection<FrameworkInfo> SupportedFrameworks { get; }
 
-        IEnumerable<IFile> GetAssemblies(INuGetFramework framework);
+        IEnumerable<IFile> GetAssemblies(FrameworkInfo framework);
     }
 }

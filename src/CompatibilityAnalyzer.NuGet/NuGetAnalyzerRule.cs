@@ -8,21 +8,13 @@ namespace CompatibilityAnalyzer
 {
     public class NuGetAnalyzerRule : IAnalyzerRule
     {
-        private readonly IAssemblyCompatibilityAnalyzer _analyzer;
-
-        public NuGetAnalyzerRule(IAssemblyCompatibilityAnalyzer analyzer)
-        {
-            _analyzer = analyzer;
-        }
-
         public string Name => "NuGet target analyzer";
 
-        public async Task RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
+        public Task RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
         {
-            var files = new List<IFile>();
+            /*var files = new List<IFile>();
 
-            var list1a = original.Frameworks
-                .Select(f => f.AsFramework())
+            var list1a = original.SupportedFrameworks
                 .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
                 .ToHashSet();
 
@@ -46,11 +38,9 @@ namespace CompatibilityAnalyzer
 
                     files.Add(assembly);
                 }
-            }
+            }*/
 
-            Console.WriteLine($"Comparing {files[0]} and {files[1]}");
-
-            _analyzer.Analyze(new[] { files[0] }, new[] { files[1] });
+            return Task.CompletedTask;
         }
     }
 }

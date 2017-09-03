@@ -48,7 +48,7 @@ namespace CompatibilityAnalyzer
             {
                 foreach (var rule in _rules)
                 {
-                    _writer.Write(rule.Name);
+                    _writer.WriteLine(rule.Name);
 
                     await rule.RunRuleAsync(original, updated, CancellationToken.None);
                 }
