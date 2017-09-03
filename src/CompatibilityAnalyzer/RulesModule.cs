@@ -7,7 +7,7 @@ namespace CompatibilityAnalyzer
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(typeof(INuGetPackageProvider).Assembly, typeof(CciAssemblyCompatibilityAnalyzer).Assembly)
+            builder.RegisterAssemblyTypes(typeof(IAnalyzerRule).Assembly, typeof(NuGetAnalyzerRule).Assembly)
                 .AssignableTo(typeof(IAnalyzerRule))
                 .As<IAnalyzerRule>()
                 .SingleInstance();

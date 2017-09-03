@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Compatibility.Cci\CompatibilityAnalyzer.Cci.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.NuGet\CompatibilityAnalyzer.NuGet.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Rules\CompatibilityAnalyzer.Rules.csproj" />
   </ItemGroup>
 
 </Project>
