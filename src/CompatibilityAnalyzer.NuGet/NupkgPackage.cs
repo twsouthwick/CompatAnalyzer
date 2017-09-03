@@ -1,5 +1,6 @@
 ﻿using NuGet.Frameworks;
 using NuGet.Packaging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,10 @@ namespace CompatibilityAnalyzer
 
             _reader = new PackageArchiveReader(new MemoryStream(data));
             SupportedFrameworks = _reader.GetSupportedFrameworks()
-                .Select(f => new FrameworkInfo(f.Framework))
+                .SelectMany(NuGet.Frameworks.CompatibilityListProvider.Default.GetFrameworksSupporting)
+                .Distinct()
+                .OrderBy(f => f.Framework, StringComparer.Ordinal)
+                .Select(f => new FrameworkInfo(f.Framework, f.Version))
                 .ToList();
         }
 
@@ -34,7 +38,7 @@ namespace CompatibilityAnalyzer
 
         public IEnumerable<IFile> GetAssemblies(FrameworkInfo framework)
         {
-            var nugetFramework = NuGetFramework.Parse(framework.Framework);
+            var nugetFramework = new NuGetFramework(framework.Framework, framework.Version);
             var libs = _reader.GetLibItems()
                 .FirstOrDefault(i => i.TargetFramework == nugetFramework);
 

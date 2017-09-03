@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CompatibilityAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
-    <ProjectReference Include="..\CompatibilityAnalyzer.Rules\CompatibilityAnalyzer.Rules.csproj" />
   </ItemGroup>
 
 </Project>
