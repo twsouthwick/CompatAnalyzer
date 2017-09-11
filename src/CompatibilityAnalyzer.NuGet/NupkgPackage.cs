@@ -26,7 +26,7 @@ namespace CompatibilityAnalyzer
                 .SelectMany(_provider.GetFrameworksSupporting)
                 .Distinct()
                 .OrderBy(f => f.Framework, StringComparer.Ordinal)
-                .Select(f => new FrameworkInfo(f.Framework, f.Version))
+                .Select(f => new FrameworkInfo(f.Framework, f.Version, f.GetShortFolderName()))
                 .ToList();
         }
 
