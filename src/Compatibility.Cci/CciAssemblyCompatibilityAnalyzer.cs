@@ -35,6 +35,11 @@ namespace CompatibilityAnalyzer
 
         private HostEnvironment CreateHostEnvironment(NameTable nameTable)
         {
+            void UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
+            {
+                Trace.TraceError("Unable to resolve assembly '{0}' referenced by the implementation assembly '{1}'.", e.Unresolved, e.Referrer);
+            }
+
             var host = new HostEnvironment(nameTable)
             {
                 ResolveAgainstRunningFramework = true,
@@ -42,7 +47,7 @@ namespace CompatibilityAnalyzer
                 LoadErrorTreatment = ErrorTreatment.TreatAsWarning
             };
 
-            host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(implHost_UnableToResolve);
+            host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(UnableToResolve);
             host.AddLibPath(_reference);
 
             return host;
@@ -88,16 +93,6 @@ namespace CompatibilityAnalyzer
         {
             // TODO: allow baseline
             return null;
-        }
-
-        private static void implHost_UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
-        {
-            Trace.TraceError("Unable to resolve assembly '{0}' referenced by the implementation assembly '{1}'.", e.Unresolved, e.Referrer);
-        }
-
-        private static void contractHost_UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
-        {
-            Trace.TraceError("Unable to resolve assembly '{0}' referenced by the contract assembly '{1}'.", e.Unresolved, e.Referrer);
         }
 
         private static ICciComparers GetComparers()
@@ -179,6 +174,9 @@ namespace CompatibilityAnalyzer
             return diffWriter;
         }
 
+        // TODO: Clean up these errors
+#pragma warning disable CS0169
+#pragma warning disable CS0649
         private static string s_contractCoreAssembly;
         private static string s_contractSet;
         private static string s_implDirs;
@@ -195,5 +193,7 @@ namespace CompatibilityAnalyzer
         private static bool s_ignoreDesignTimeFacades;
         private static bool s_excludeNonBrowsable;
         private static bool s_warnOnMissingAssemblies;
+#pragma warning restore CS0169
+#pragma warning restore CS0649
     }
 }
