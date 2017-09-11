@@ -55,13 +55,18 @@ namespace CompatibilityAnalyzer
 
             foreach (var lib in libs.Items.Where(i => string.Equals(".dll", Path.GetExtension(i))))
             {
-                using (var ms = new MemoryStream())
-                using (var entryStream = _reader.GetStream(lib))
+                byte[] GetBytes()
                 {
-                    entryStream.CopyTo(ms);
+                    using (var ms = new MemoryStream())
+                    using (var entryStream = _reader.GetStream(lib))
+                    {
+                        entryStream.CopyTo(ms);
 
-                    yield return new VersionedFile(new ByteFile(lib, ms.ToArray()), Version);
+                        return ms.ToArray();
+                    }
                 }
+
+                yield return new VersionedFile(new DelegateFile(GetBytes, lib), Version);
             }
         }
     }
