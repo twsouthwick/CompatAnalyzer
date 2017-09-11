@@ -25,7 +25,7 @@ namespace CompatibilityAnalyzer
         public CciAssemblyCompatibilityAnalyzer(TextWriter log)
         {
             _log = log;
-            _reference = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7";
+            _reference = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1";
 
             Trace.Listeners.Add(new TextWriterTraceListener(_log)
             {

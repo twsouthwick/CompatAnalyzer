@@ -18,12 +18,12 @@ namespace CompatibilityAnalyzer
             _writer = writer;
         }
 
-        public Task RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
+        public Task<IReadOnlyCollection<RuleDiagnostic>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
         {
             Print("original", original);
             Print("updated", updated);
 
-            return Task.CompletedTask;
+            return Task.FromResult<IReadOnlyCollection<RuleDiagnostic>>(Array.Empty<RuleDiagnostic>()); ;
         }
 
         private void Print(string title, IPackage package)
