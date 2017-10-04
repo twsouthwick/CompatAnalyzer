@@ -35,11 +35,6 @@ namespace CompatibilityAnalyzer
 
         private HostEnvironment CreateHostEnvironment(NameTable nameTable)
         {
-            void UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
-            {
-                Trace.TraceError("Unable to resolve assembly '{0}' referenced by the implementation assembly '{1}'.", e.Unresolved, e.Referrer);
-            }
-
             var host = new HostEnvironment(nameTable)
             {
                 ResolveAgainstRunningFramework = true,
@@ -47,7 +42,11 @@ namespace CompatibilityAnalyzer
                 LoadErrorTreatment = ErrorTreatment.TreatAsWarning
             };
 
-            host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(UnableToResolve);
+            host.UnableToResolve += (s, e) =>
+            {
+                Trace.TraceError("Unable to resolve assembly '{0}' referenced by the implementation assembly '{1}'.", e.Unresolved, e.Referrer);
+            };
+
             host.AddLibPath(_reference);
 
             return host;
