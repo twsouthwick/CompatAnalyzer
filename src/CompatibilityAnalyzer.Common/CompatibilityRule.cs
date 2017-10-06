@@ -4,6 +4,6 @@ public struct CompatibilityRule
     {
         Name = name;
     }
-    
+
     public string Name { get; }
 }

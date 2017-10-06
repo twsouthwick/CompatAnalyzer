@@ -14,6 +14,13 @@ namespace CompatibilityAnalyzer
         private readonly INuGetPackageProvider _packageProvider;
         private readonly TextWriter _writer;
 
+        public Program(IEnumerable<IAnalyzerRule> rules, TextWriter writer, INuGetPackageProvider packageProvider)
+        {
+            _rules = rules;
+            _writer = writer;
+            _packageProvider = packageProvider;
+        }
+
         private static void Main(string[] args)
         {
             var builder = new ContainerBuilder();
@@ -32,13 +39,6 @@ namespace CompatibilityAnalyzer
 
                 program.RunAsync().GetAwaiter().GetResult();
             }
-        }
-
-        public Program(IEnumerable<IAnalyzerRule> rules, TextWriter writer, INuGetPackageProvider packageProvider)
-        {
-            _rules = rules;
-            _writer = writer;
-            _packageProvider = packageProvider;
         }
 
         public async Task RunAsync()

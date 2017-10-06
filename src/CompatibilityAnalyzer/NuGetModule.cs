@@ -1,11 +1,11 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using NuGet.Common;
 using NuGet.Protocol.Core.Types;
+using System;
 
 namespace CompatibilityAnalyzer
 {
-    class NuGetModule : Module
+    internal class NuGetModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

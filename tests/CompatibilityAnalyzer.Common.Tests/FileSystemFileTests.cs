@@ -76,7 +76,7 @@ namespace CompatibilityAnalyzer
         [Theory]
         public void FileEquality(IFile file1, IFile file2, bool expected)
         {
-            if(expected)
+            if (expected)
             {
                 Assert.Equal(file1, file2);
             }
