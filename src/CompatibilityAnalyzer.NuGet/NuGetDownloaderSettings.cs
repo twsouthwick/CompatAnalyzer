@@ -2,6 +2,13 @@
 {
     public class NuGetDownloaderSettings
     {
-        public string Feed { get; set; }
+        private readonly IAnalysisOptions _options;
+
+        public NuGetDownloaderSettings(IAnalysisOptions options)
+        {
+            _options = options;
+        }
+
+        public string Feed => _options.Feed;
     }
 }

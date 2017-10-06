@@ -6,7 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CompatibilityAnalysisException.cs" />
+    <Compile Remove="IAnalysisOptions.cs" />
+    <Compile Remove="PackageIdentity.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="System.CommandLine" Version="0.1.0-e170406-3" />
   </ItemGroup>
 
   <ItemGroup>

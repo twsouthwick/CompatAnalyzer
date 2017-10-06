@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using NuGet.Common;
 using NuGet.Protocol.Core.Types;
-using System;
 
 namespace CompatibilityAnalyzer
 {
@@ -12,8 +11,7 @@ namespace CompatibilityAnalyzer
             builder.RegisterType<SourceCacheContext>()
                 .SingleInstance();
 
-            // builder.RegisterType<NuGetPackageDownloader>()
-            builder.RegisterType<LocalNuGetPackageProvider>()
+            builder.RegisterType<NuGetPackageDownloader>()
                 .As<INuGetPackageProvider>()
                 .InstancePerLifetimeScope();
 
@@ -21,16 +19,8 @@ namespace CompatibilityAnalyzer
                 .As<ILogger>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterInstance(GetSettings());
-        }
-
-        private static NuGetDownloaderSettings GetSettings()
-        {
-            return new NuGetDownloaderSettings
-            {
-                // Feed = @"https://api.nuget.org/v3/index.json"
-                Feed = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-            };
+            builder.RegisterType<NuGetDownloaderSettings>()
+                .SingleInstance();
         }
     }
 }

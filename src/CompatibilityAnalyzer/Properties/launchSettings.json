@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CompatibilityAnalyzer": {
+      "commandName": "Project",
+      "commandLineArgs": "--packageId Newtonsoft.Json --original 10.0.1 --updated 10.0.2"
+    }
+  }
+}
