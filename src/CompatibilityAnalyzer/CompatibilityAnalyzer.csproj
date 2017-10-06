@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Remove="CompatibilityAnalysisException.cs" />
     <Compile Remove="IAnalysisOptions.cs" />
+    <Compile Remove="IReferenceAssemblyOptions.cs" />
     <Compile Remove="PackageIdentity.cs" />
   </ItemGroup>
 

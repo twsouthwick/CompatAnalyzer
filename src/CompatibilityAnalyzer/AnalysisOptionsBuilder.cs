@@ -3,13 +3,15 @@ using System.CommandLine;
 
 namespace CompatibilityAnalyzer
 {
-    internal class AnalysisOptionsBuilder : IAnalysisOptions
+    internal class AnalysisOptionsBuilder : IAnalysisOptions, IReferenceAssemblyOptions
     {
         private string _packageId = null;
         private string _originalVersion = null;
         private string _updatedVersion = null;
         private string _feed = @"https://api.nuget.org/v3/index.json";
         private bool _verbose = false;
+        private AnalysisCommand _command = AnalysisCommand.None;
+        private string _referencePath;
 
         private AnalysisOptionsBuilder()
         {
@@ -25,25 +27,70 @@ namespace CompatibilityAnalyzer
 
         public string UpdatedVersion => _updatedVersion;
 
-        public static IAnalysisOptions Parse(string[] args)
+        public string ReferencePath => _referencePath;
+
+        public AnalysisCommand Command => _command;
+
+        bool IReferenceAssemblyOptions.Create => _command == AnalysisCommand.CollectReferenceAssemblies;
+
+        public static AnalysisOptionsBuilder Parse(string[] args)
         {
             var options = new AnalysisOptionsBuilder();
+            var syntax = default(ArgumentSyntax);
 
-            var syntax = ArgumentSyntax.Parse(args, arg =>
+            try
             {
-                arg.DefineOption("packageId", ref options._packageId, true, "NuGet package to analyze");
-                arg.DefineOption("original", ref options._originalVersion, true, "Original package");
-                arg.DefineOption("updated", ref options._updatedVersion, true, "Updated packages");
-                arg.DefineOption("feed", ref options._feed, false, "NuGet feed to use");
-                arg.DefineOption("verbose", ref options._verbose, false, "Turn verbose output on");
-            });
+                ArgumentSyntax.Parse(args, arg =>
+                {
+                    arg.HandleErrors = false;
 
-            options.Validate(syntax);
+                    arg.DefineCommand("analyze", ref options._command, AnalysisCommand.Analyze, "Analyze packages");
 
-            return options;
+                    arg.DefineOption("packageId", ref options._packageId, true, "NuGet package to analyze");
+                    arg.DefineOption("original", ref options._originalVersion, true, "Original package");
+                    arg.DefineOption("updated", ref options._updatedVersion, true, "Updated packages");
+                    arg.DefineOption("feed", ref options._feed, false, "NuGet feed to use");
+                    arg.DefineOption("verbose", ref options._verbose, false, "Turn verbose output on");
+                    arg.DefineOption("ref", ref options._referencePath, false, "Zip archive of reference assemblies");
+
+                    arg.DefineCommand("ref", ref options._command, AnalysisCommand.CollectReferenceAssemblies, "Collect reference assemblies");
+                    arg.DefineOption("path", ref options._referencePath, true, "Path to save reference assembly collection");
+
+                    syntax = arg;
+                });
+
+                options.Validate(syntax);
+
+                return options;
+            }
+            catch (ArgumentSyntaxException e)
+            {
+                throw new ArgumentParsingException(syntax, e.Message);
+            }
         }
 
         private void Validate(ArgumentSyntax syntax)
+        {
+            switch (Command)
+            {
+                case AnalysisCommand.Analyze:
+                    ValidateAnalyze(syntax);
+                    break;
+                case AnalysisCommand.CollectReferenceAssemblies:
+                    ValidateReferenceAssemblyCollection(syntax);
+                    break;
+            }
+        }
+
+        private void ValidateReferenceAssemblyCollection(ArgumentSyntax syntax)
+        {
+            if (string.IsNullOrWhiteSpace(_referencePath))
+            {
+                throw new ArgumentParsingException(syntax, "Must supply a path to save output");
+            }
+        }
+
+        private void ValidateAnalyze(ArgumentSyntax syntax)
         {
             if (string.IsNullOrWhiteSpace(_packageId))
             {

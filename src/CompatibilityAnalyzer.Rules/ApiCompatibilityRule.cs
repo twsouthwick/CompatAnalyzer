@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,10 +7,12 @@ namespace CompatibilityAnalyzer
 {
     public class ApiCompatibilityRule : IAnalyzerRule
     {
+        private readonly TextWriter _writer;
         private readonly IAssemblyCompatibilityAnalyzer _analyzer;
 
-        public ApiCompatibilityRule(IAssemblyCompatibilityAnalyzer analyzer)
+        public ApiCompatibilityRule(TextWriter writer, IAssemblyCompatibilityAnalyzer analyzer)
         {
+            _writer = writer;
             _analyzer = analyzer;
         }
 
@@ -23,10 +24,17 @@ namespace CompatibilityAnalyzer
 
             foreach (var framework in updated.SupportedFrameworks)
             {
-                var updatedAssemblies = updated.GetAssemblies(framework);
-                var originalAssemblies = original.GetAssemblies(framework);
+                try
+                {
+                    var updatedAssemblies = updated.GetAssemblies(framework);
+                    var originalAssemblies = original.GetAssemblies(framework);
 
-                _analyzer.Analyze(originalAssemblies, updatedAssemblies);
+                    _analyzer.Analyze(originalAssemblies, updatedAssemblies);
+                }
+                catch (CompatibilityAnalysisException e)
+                {
+                    _writer.WriteLine(e.Message);
+                }
             }
 
             return Task.FromResult<IReadOnlyCollection<RuleDiagnostic>>(result);

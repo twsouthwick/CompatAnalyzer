@@ -20,12 +20,12 @@ namespace CompatibilityAnalyzer
     public class CciAssemblyCompatibilityAnalyzer : IAssemblyCompatibilityAnalyzer
     {
         private readonly TextWriter _log;
-        private readonly string _reference;
+        private readonly IReferenceAssemblyProvider _referenceAssemblyProvider;
 
-        public CciAssemblyCompatibilityAnalyzer(TextWriter log)
+        public CciAssemblyCompatibilityAnalyzer(TextWriter log, IReferenceAssemblyProvider referenceAssemblyProvider)
         {
             _log = log;
-            _reference = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1";
+            _referenceAssemblyProvider = referenceAssemblyProvider;
 
             Trace.Listeners.Add(new TextWriterTraceListener(_log)
             {
@@ -33,7 +33,7 @@ namespace CompatibilityAnalyzer
             });
         }
 
-        private HostEnvironment CreateHostEnvironment(NameTable nameTable)
+        private HostEnvironment CreateHostEnvironment(NameTable nameTable, string framework)
         {
             void UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
             {
@@ -48,7 +48,7 @@ namespace CompatibilityAnalyzer
             };
 
             host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(UnableToResolve);
-            host.AddLibPath(_reference);
+            host.AddLibPath(_referenceAssemblyProvider.GetReferenceAssemblyPath(framework));
 
             return host;
         }
@@ -58,13 +58,13 @@ namespace CompatibilityAnalyzer
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();
 
-            var contractHost = CreateHostEnvironment(sharedNameTable);
+            var contractHost = CreateHostEnvironment(sharedNameTable, GetFramework(version1Assemblies));
             var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies);
 
             if (s_ignoreDesignTimeFacades)
                 contractAssemblies = contractAssemblies.Where(a => !a.IsFacade());
 
-            var implHost = CreateHostEnvironment(sharedNameTable);
+            var implHost = CreateHostEnvironment(sharedNameTable, GetFramework(version2Assemblies));
             var implAssemblies = implHost.LoadAssemblies(version2Assemblies);
 
             // Exit after loading if the code is set to non-zero
@@ -172,6 +172,18 @@ namespace CompatibilityAnalyzer
             container.SatisfyImports(diffWriter);
 
             return diffWriter;
+        }
+
+        private string GetFramework(IEnumerable<IFile> files)
+        {
+            var options = files.Select(f =>
+            {
+                var split = f.Path.Split(new[] { '/' });
+
+                return split[1];
+            }).Distinct();
+
+            return options.Single();
         }
 
         // TODO: Clean up these errors
