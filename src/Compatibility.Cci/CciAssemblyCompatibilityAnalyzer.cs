@@ -33,7 +33,7 @@ namespace CompatibilityAnalyzer
             });
         }
 
-        private HostEnvironment CreateHostEnvironment(NameTable nameTable, string framework)
+        private HostEnvironment CreateHostEnvironment(NameTable nameTable, FrameworkInfo framework)
         {
             void UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
             {
@@ -48,23 +48,23 @@ namespace CompatibilityAnalyzer
             };
 
             host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(UnableToResolve);
-            host.AddLibPath(_referenceAssemblyProvider.GetReferenceAssemblyPath(framework));
+            host.AddLibPath(_referenceAssemblyProvider.GetReferenceAssemblyPath(framework.FolderName));
 
             return host;
         }
 
-        public void Analyze(IEnumerable<IFile> version1Assemblies, IEnumerable<IFile> version2Assemblies)
+        public void Analyze(IEnumerable<IFile> version1Assemblies, IEnumerable<IFile> version2Assemblies, FrameworkInfo framework)
         {
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();
 
-            var contractHost = CreateHostEnvironment(sharedNameTable, GetFramework(version1Assemblies));
+            var contractHost = CreateHostEnvironment(sharedNameTable, framework);
             var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies);
 
             if (s_ignoreDesignTimeFacades)
                 contractAssemblies = contractAssemblies.Where(a => !a.IsFacade());
 
-            var implHost = CreateHostEnvironment(sharedNameTable, GetFramework(version2Assemblies));
+            var implHost = CreateHostEnvironment(sharedNameTable, framework);
             var implAssemblies = implHost.LoadAssemblies(version2Assemblies);
 
             // Exit after loading if the code is set to non-zero

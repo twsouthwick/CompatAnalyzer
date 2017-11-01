@@ -29,7 +29,7 @@ namespace CompatibilityAnalyzer
                     var updatedAssemblies = updated.GetAssemblies(framework);
                     var originalAssemblies = original.GetAssemblies(framework);
 
-                    _analyzer.Analyze(originalAssemblies, updatedAssemblies);
+                    _analyzer.Analyze(originalAssemblies, updatedAssemblies, framework);
                 }
                 catch (CompatibilityAnalysisException e)
                 {
