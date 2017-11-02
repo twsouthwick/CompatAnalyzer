@@ -53,19 +53,19 @@ namespace CompatibilityAnalyzer
             return host;
         }
 
-        public void Analyze(IEnumerable<IFile> version1Assemblies, IEnumerable<IFile> version2Assemblies, FrameworkInfo framework)
+        public void Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, FrameworkInfo framework)
         {
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();
 
             var contractHost = CreateHostEnvironment(sharedNameTable, framework);
-            var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies);
+            var contractAssemblies = contractHost.LoadAssemblies(version1Assemblies.Files);
 
             if (s_ignoreDesignTimeFacades)
                 contractAssemblies = contractAssemblies.Where(a => !a.IsFacade());
 
             var implHost = CreateHostEnvironment(sharedNameTable, framework);
-            var implAssemblies = implHost.LoadAssemblies(version2Assemblies);
+            var implAssemblies = implHost.LoadAssemblies(version2Assemblies.Files);
 
             // Exit after loading if the code is set to non-zero
             if (DifferenceWriter.ExitCode != 0)

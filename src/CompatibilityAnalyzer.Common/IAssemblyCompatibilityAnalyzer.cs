@@ -4,7 +4,7 @@ namespace CompatibilityAnalyzer
 {
     public interface IAssemblyCompatibilityAnalyzer
     {
-        void Analyze(IEnumerable<IFile> version1Assemblies, IEnumerable<IFile> version2Assemblies, FrameworkInfo framework);
+        void Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, FrameworkInfo framework);
 
         IEnumerable<CompatibilityRule> GetRules();
     }

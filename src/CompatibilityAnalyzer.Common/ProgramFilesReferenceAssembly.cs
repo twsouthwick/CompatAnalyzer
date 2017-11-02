@@ -36,6 +36,7 @@ namespace CompatibilityAnalyzer
                 { "net46",  Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.1") },
                 { "net461", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.2") },
                 { "net47",  Path.Combine(ReferenceDirectory, ".NETFramework", "v4.7") },
+                { "netcore50",  Path.Combine(ReferenceDirectory, ".NETCore", "v4.5") }
             };
 
             var portables = new[]

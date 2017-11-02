@@ -41,7 +41,7 @@ namespace CompatibilityAnalyzer
             _reader.Dispose();
         }
 
-        public IEnumerable<IFile> GetAssemblies(FrameworkInfo framework)
+        public FrameworkItems GetAssemblies(FrameworkInfo framework)
         {
             var nugetFramework = new NuGetFramework(framework.Framework, framework.Version);
             var bestMatch = _reducer.GetNearest(nugetFramework, _reader.GetSupportedFrameworks());
@@ -50,8 +50,10 @@ namespace CompatibilityAnalyzer
 
             if (libs == null)
             {
-                yield break;
+                return new FrameworkItems(Enumerable.Empty<IFile>(), Enumerable.Empty<IFile>());
             }
+
+            var items = new List<IFile>();
 
             foreach (var lib in libs.Items.Where(i => string.Equals(".dll", Path.GetExtension(i))))
             {
@@ -66,8 +68,10 @@ namespace CompatibilityAnalyzer
                     }
                 }
 
-                yield return new VersionedFile(new DelegateFile(GetBytes, lib), Version);
+                items.Add(new VersionedFile(new DelegateFile(GetBytes, lib), Version));
             }
+
+            return new FrameworkItems(items, Enumerable.Empty<IFile>());
         }
     }
 }

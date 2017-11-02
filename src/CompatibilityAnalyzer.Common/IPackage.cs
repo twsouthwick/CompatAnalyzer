@@ -11,6 +11,6 @@ namespace CompatibilityAnalyzer
 
         IReadOnlyCollection<FrameworkInfo> SupportedFrameworks { get; }
 
-        IEnumerable<IFile> GetAssemblies(FrameworkInfo framework);
+        FrameworkItems GetAssemblies(FrameworkInfo framework);
     }
 }
