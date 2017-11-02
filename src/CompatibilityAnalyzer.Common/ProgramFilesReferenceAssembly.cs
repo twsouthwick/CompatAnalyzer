@@ -41,6 +41,7 @@ namespace CompatibilityAnalyzer
                 map.Add(name, paths);
             }
 
+            Add("net20", Path.Combine(ReferenceDirectory, ".NETFramework", "v3.5", "Profile", "Client"));
             Add("net35", Path.Combine(ReferenceDirectory, ".NETFramework", "v3.5", "Profile", "Client"));
             Add("net40", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.0"));
             Add("net45", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5"));
@@ -51,6 +52,14 @@ namespace CompatibilityAnalyzer
             Add("net47", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.7"));
             Add("netcore50", Path.Combine(ReferenceDirectory, ".NETCore", "v4.5"));
             Add("monotouch", Path.Combine(ReferenceDirectory, "MonoTouch", "v1.0"));
+            Add("netstandard1.0", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5"));
+            Add("netstandard1.1", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5"));
+            Add("netstandard1.2", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5.1"));
+            Add("netstandard1.3", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6"));
+            Add("netstandard1.4", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.1"));
+            Add("netstandard1.5", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.1"));
+            Add("netstandard1.6", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.1"));
+            Add("netstandard2.0", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.7"));
 
             var portables = new[]
             {
