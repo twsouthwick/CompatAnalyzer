@@ -37,7 +37,14 @@ namespace CompatibilityAnalyzer
 
         public FrameworkItems GetAssemblies(NuGetFramework framework)
         {
-            return new FrameworkItems(_reader.GetAssemblies(framework).ToList(), Enumerable.Empty<IFile>());
+            if (_dependencies.TryGetValue(framework, out var files))
+            {
+                return new FrameworkItems(_reader.GetAssemblies(framework).ToList(), files);
+            }
+            else
+            {
+                return new FrameworkItems(_reader.GetAssemblies(framework).ToList(), Enumerable.Empty<IFile>());
+            }
         }
     }
 }
