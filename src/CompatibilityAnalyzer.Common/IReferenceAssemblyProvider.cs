@@ -6,6 +6,6 @@ namespace CompatibilityAnalyzer
     {
         IEnumerable<string> SupportedProfiles { get; }
 
-        string GetReferenceAssemblyPath(string profile);
+        IEnumerable<string> GetReferenceAssemblyPath(string profile);
     }
 }

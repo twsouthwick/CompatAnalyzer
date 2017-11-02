@@ -8,11 +8,11 @@ namespace CompatibilityAnalyzer
     {
         private static readonly string ReferenceDirectory = Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\Reference Assemblies\Microsoft\Framework\");
 
-        private readonly Lazy<IReadOnlyDictionary<string, string>> _map = new Lazy<IReadOnlyDictionary<string, string>>(() => CreateReferenceAssemblyLookup(), true);
+        private readonly Lazy<IReadOnlyDictionary<string, IReadOnlyCollection<string>>> _map = new Lazy<IReadOnlyDictionary<string, IReadOnlyCollection<string>>>(() => CreateReferenceAssemblyLookup(), true);
 
         public IEnumerable<string> SupportedProfiles => _map.Value.Keys;
 
-        public string GetReferenceAssemblyPath(string profile)
+        public IEnumerable<string> GetReferenceAssemblyPath(string profile)
         {
             if (_map.Value.TryGetValue(profile, out var path))
             {
@@ -24,20 +24,33 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        private static IReadOnlyDictionary<string, string> CreateReferenceAssemblyLookup()
+        private static IReadOnlyDictionary<string, IReadOnlyCollection<string>> CreateReferenceAssemblyLookup()
         {
-            var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            var map = new Dictionary<string, IReadOnlyCollection<string>>(StringComparer.OrdinalIgnoreCase);
+
+            void Add(string name, string path)
             {
-                { "net35",  Path.Combine(ReferenceDirectory, ".NETFramework", "v3.5", "Profile", "Client") },
-                { "net40",  Path.Combine(ReferenceDirectory, ".NETFramework", "v4.0") },
-                { "net45",  Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5") },
-                { "net451", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5.1") },
-                { "net452", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5.2") },
-                { "net46",  Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.1") },
-                { "net461", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.2") },
-                { "net47",  Path.Combine(ReferenceDirectory, ".NETFramework", "v4.7") },
-                { "netcore50",  Path.Combine(ReferenceDirectory, ".NETCore", "v4.5") }
-            };
+                var paths = new List<string> { path };
+                var facades = new DirectoryInfo(Path.Combine(path, "Facades"));
+
+                if (facades.Exists)
+                {
+                    paths.Add(facades.FullName);
+                }
+
+                map.Add(name, paths);
+            }
+
+            Add("net35", Path.Combine(ReferenceDirectory, ".NETFramework", "v3.5", "Profile", "Client"));
+            Add("net40", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.0"));
+            Add("net45", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5"));
+            Add("net451", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5.1"));
+            Add("net452", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.5.2"));
+            Add("net46", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.1"));
+            Add("net461", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.6.2"));
+            Add("net47", Path.Combine(ReferenceDirectory, ".NETFramework", "v4.7"));
+            Add("netcore50", Path.Combine(ReferenceDirectory, ".NETCore", "v4.5"));
+            Add("monotouch", Path.Combine(ReferenceDirectory, "MonoTouch", "v1.0"));
 
             var portables = new[]
             {
@@ -52,7 +65,7 @@ namespace CompatibilityAnalyzer
                 {
                     var name = Path.GetFileName(directory);
 
-                    map.Add(name, directory);
+                    Add(name, directory);
                 }
             }
 

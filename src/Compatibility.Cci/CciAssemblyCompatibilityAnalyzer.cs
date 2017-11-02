@@ -49,7 +49,11 @@ namespace CompatibilityAnalyzer
             };
 
             host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(UnableToResolve);
-            host.AddLibPath(_referenceAssemblyProvider.GetReferenceAssemblyPath(framework.HasProfile ? framework.Profile : framework.GetShortFolderName()));
+
+            foreach (var path in _referenceAssemblyProvider.GetReferenceAssemblyPath(framework.HasProfile ? framework.Profile : framework.GetShortFolderName()))
+            {
+                host.AddLibPath(path);
+            }
 
             return host;
         }

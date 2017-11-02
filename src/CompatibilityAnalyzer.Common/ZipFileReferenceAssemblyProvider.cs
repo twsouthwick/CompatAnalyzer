@@ -23,11 +23,11 @@ namespace CompatibilityAnalyzer
 
         public IEnumerable<string> SupportedProfiles => Directory.EnumerateDirectories(_location).Select(Path.GetFileName);
 
-        public string GetReferenceAssemblyPath(string profile)
+        public IEnumerable<string> GetReferenceAssemblyPath(string profile)
         {
             if (!_extracted.Value)
             {
-                return null;
+                yield break;
             }
 
             var path = Path.Combine(_location, profile);
@@ -37,7 +37,7 @@ namespace CompatibilityAnalyzer
                 throw new ProfileNotFound(profile);
             }
 
-            return path;
+            yield return path;
         }
 
         private bool Extract()

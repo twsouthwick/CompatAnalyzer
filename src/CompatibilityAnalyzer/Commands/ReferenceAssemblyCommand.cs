@@ -27,11 +27,14 @@ namespace CompatibilityAnalyzer
                 {
                     _writer.WriteLine($"Adding reference assembly for: {profile}");
 
-                    foreach (var item in Directory.EnumerateFiles(_provider.GetReferenceAssemblyPath(profile), "*.dll", SearchOption.TopDirectoryOnly))
+                    foreach (var path in _provider.GetReferenceAssemblyPath(profile))
                     {
-                        var name = Path.Combine(profile, Path.GetFileName(item));
+                        foreach (var item in Directory.EnumerateFiles(path, "*.dll", SearchOption.TopDirectoryOnly))
+                        {
+                            var name = Path.Combine(profile, Path.GetFileName(item));
 
-                        zip.CreateEntryFromFile(item, name, CompressionLevel.Optimal);
+                            zip.CreateEntryFromFile(item, name, CompressionLevel.Optimal);
+                        }
                     }
                 }
             }
