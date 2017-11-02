@@ -18,7 +18,7 @@ namespace CompatibilityAnalyzer
             var path = Path.Combine(_settings.Feed, $"{id}.{version}.nupkg");
             var bytes = File.ReadAllBytes(path);
 
-            return Task.FromResult<IPackage>(new NupkgPackage(id, version, bytes));
+            return Task.FromResult<IPackage>(new NupkgPackage(id, version, bytes, null));
         }
     }
 }

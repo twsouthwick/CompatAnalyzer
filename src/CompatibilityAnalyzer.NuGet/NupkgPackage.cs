@@ -11,12 +11,14 @@ namespace CompatibilityAnalyzer
     {
         private readonly PackageArchiveReader _reader;
         private readonly IFrameworkCompatibilityListProvider _provider;
+        private readonly Dictionary<NuGetFramework, IReadOnlyCollection<IFile>> _dependencies;
 
-        public NupkgPackage(string id, string version, byte[] data)
+        public NupkgPackage(string id, string version, byte[] data, Dictionary<NuGetFramework, IReadOnlyCollection<IFile>> dependencies)
         {
             Id = id;
             Version = version;
 
+            _dependencies = dependencies;
             _provider = CompatibilityListProvider.Default;
             _reader = new PackageArchiveReader(new MemoryStream(data));
 
