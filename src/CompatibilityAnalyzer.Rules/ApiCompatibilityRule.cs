@@ -24,6 +24,11 @@ namespace CompatibilityAnalyzer
 
             foreach (var framework in updated.SupportedFrameworks)
             {
+                if (framework.IsAny)
+                {
+                    continue;
+                }
+
                 try
                 {
                     var updatedAssemblies = updated.GetAssemblies(framework);
