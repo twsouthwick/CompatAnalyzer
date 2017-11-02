@@ -6,6 +6,7 @@ using Microsoft.Cci.Extensions;
 using Microsoft.Cci.Filters;
 using Microsoft.Cci.Mappings;
 using Microsoft.Cci.Writers;
+using NuGet.Frameworks;
 using System;
 using System.Collections.Generic;
 using System.Composition;
@@ -33,7 +34,7 @@ namespace CompatibilityAnalyzer
             });
         }
 
-        private HostEnvironment CreateHostEnvironment(NameTable nameTable, FrameworkInfo framework)
+        private HostEnvironment CreateHostEnvironment(NameTable nameTable, NuGetFramework framework)
         {
             void UnableToResolve(object sender, UnresolvedReference<IUnit, AssemblyIdentity> e)
             {
@@ -48,12 +49,12 @@ namespace CompatibilityAnalyzer
             };
 
             host.UnableToResolve += new EventHandler<UnresolvedReference<IUnit, AssemblyIdentity>>(UnableToResolve);
-            host.AddLibPath(_referenceAssemblyProvider.GetReferenceAssemblyPath(framework.FolderName));
+            host.AddLibPath(_referenceAssemblyProvider.GetReferenceAssemblyPath(framework.GetShortFolderName()));
 
             return host;
         }
 
-        public void Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, FrameworkInfo framework)
+        public void Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework)
         {
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();

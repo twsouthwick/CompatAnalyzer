@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NuGet.Frameworks;
+using System;
 using System.Collections.Generic;
 
 namespace CompatibilityAnalyzer
@@ -9,8 +10,8 @@ namespace CompatibilityAnalyzer
 
         string Version { get; }
 
-        IReadOnlyCollection<FrameworkInfo> SupportedFrameworks { get; }
+        IReadOnlyCollection<NuGetFramework> SupportedFrameworks { get; }
 
-        FrameworkItems GetAssemblies(FrameworkInfo framework);
+        FrameworkItems GetAssemblies(NuGetFramework framework);
     }
 }

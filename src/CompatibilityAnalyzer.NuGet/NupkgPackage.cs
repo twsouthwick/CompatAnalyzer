@@ -26,7 +26,6 @@ namespace CompatibilityAnalyzer
                 .SelectMany(_provider.GetFrameworksSupporting)
                 .Distinct()
                 .OrderBy(f => f.Framework, StringComparer.Ordinal)
-                .Select(f => new FrameworkInfo(f.Framework, f.Version, f.GetShortFolderName()))
                 .ToList();
         }
 
@@ -34,17 +33,16 @@ namespace CompatibilityAnalyzer
 
         public string Version { get; }
 
-        public IReadOnlyCollection<FrameworkInfo> SupportedFrameworks { get; }
+        public IReadOnlyCollection<NuGetFramework> SupportedFrameworks { get; }
 
         public void Dispose()
         {
             _reader.Dispose();
         }
 
-        public FrameworkItems GetAssemblies(FrameworkInfo framework)
+        public FrameworkItems GetAssemblies(NuGetFramework framework)
         {
-            var nugetFramework = new NuGetFramework(framework.Framework, framework.Version);
-            var bestMatch = _reducer.GetNearest(nugetFramework, _reader.GetSupportedFrameworks());
+            var bestMatch = _reducer.GetNearest(framework, _reader.GetSupportedFrameworks());
             var libs = _reader.GetLibItems()
                 .FirstOrDefault(i => i.TargetFramework == bestMatch);
 
