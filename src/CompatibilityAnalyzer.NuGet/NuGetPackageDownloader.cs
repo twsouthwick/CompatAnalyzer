@@ -10,26 +10,17 @@ using System.Threading.Tasks;
 
 namespace CompatibilityAnalyzer
 {
-    public class NuGetPackageDownloader : IDisposable, INuGetPackageProvider
+    public class NuGetPackageDownloader : INuGetPackageProvider
     {
-        private readonly HttpClientHandler _handler;
-        private readonly HttpHandlerResourceV3 _httpResource;
         private readonly SourceRepository _repository;
         private readonly SourceCacheContext _cache;
         private readonly ILogger _log;
 
-        public NuGetPackageDownloader(NuGetDownloaderSettings settings, SourceCacheContext cache, ILogger log)
+        public NuGetPackageDownloader(NuGetDownloaderSettings settings, SourceRepository repository, SourceCacheContext cache, ILogger log)
         {
-            _handler = new HttpClientHandler();
-            _httpResource = new HttpHandlerResourceV3(_handler, _handler);
-            _repository = Repository.Factory.GetCoreV3(settings.Feed);
+            _repository = repository;
             _cache = cache;
             _log = log;
-        }
-
-        public void Dispose()
-        {
-            _handler.Dispose();
         }
 
         public async Task<IPackage> GetPackageAsync(string id, string version, CancellationToken token)
