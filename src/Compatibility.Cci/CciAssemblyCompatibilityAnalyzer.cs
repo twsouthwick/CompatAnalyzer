@@ -72,6 +72,8 @@ namespace CompatibilityAnalyzer
                 return;
 
             var writer = GetDifferenceWriter(_log, filter);
+
+            Console.Write($"{framework}: ");
             writer.Write(s_implDirs, implAssemblies, s_contractSet, contractAssemblies);
         }
 

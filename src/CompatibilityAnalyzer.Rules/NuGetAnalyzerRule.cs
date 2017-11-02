@@ -19,21 +19,7 @@ namespace CompatibilityAnalyzer
 
         public Task<IReadOnlyCollection<RuleDiagnostic>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
         {
-            Print("original", original);
-            Print("updated", updated);
-
             return Task.FromResult<IReadOnlyCollection<RuleDiagnostic>>(Array.Empty<RuleDiagnostic>());
-        }
-
-        private void Print(string title, IPackage package)
-        {
-            Console.WriteLine(title);
-
-            foreach (var framework in package.SupportedFrameworks)
-            {
-                _writer.Write("\t");
-                _writer.WriteLine(framework);
-            }
         }
     }
 }
