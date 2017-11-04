@@ -17,6 +17,8 @@ namespace CompatibilityAnalyzer.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddSingleton<CompatibilityAnalyzer.Models.IModelSerializer, CompatibilityAnalyzer.Models.Protobuf.ProtobufModelSerializer>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -17,4 +17,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CompatibilityAanalyzer.Models\CompatibilityAanalyzer.Models.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj" />
+  </ItemGroup>
+
 </Project>

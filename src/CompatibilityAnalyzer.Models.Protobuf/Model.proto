@@ -1,0 +1,32 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "CompatibilityAnalyzer.Models.Protobuf";
+
+/*
+
+To regenerate source file, run the following form the CompatibilityAnalyzer.Models.Protobuf directory:
+
+protoc "-I=." --csharp_out=. --csharp_opt=internal_access=true,file_extension=.g.cs .\Model.proto
+
+*/
+
+message RequestItem
+{
+	oneof item {
+		NuGetRequest nuget = 1;
+	}
+}
+
+message NuGetRequest
+{
+	string Feed = 1;
+	string id = 2;
+	string version = 3;
+}
+
+message AnalyzeRequest
+{
+	string id = 1;
+	RequestItem original = 2;
+	RequestItem updated = 3;
+}
