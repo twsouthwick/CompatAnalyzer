@@ -52,8 +52,8 @@ namespace CompatibilityAnalyzer.Commands
             {
                 Console.WriteLine($"Starting: {value.Message.Id}");
 
-                var updatedMessage = value.Message.Updated as NugetData;
-                var originalMessage = value.Message.Original as NugetData;
+                var updatedMessage = value.Message.Updated as NuGetRequestItem;
+                var originalMessage = value.Message.Original as NuGetRequestItem;
 
                 using (var updated = await _packageProvider.GetPackageAsync(updatedMessage.Id, updatedMessage.Version, CancellationToken.None))
                 using (var original = await _packageProvider.GetPackageAsync(originalMessage.Id, originalMessage.Version, CancellationToken.None))

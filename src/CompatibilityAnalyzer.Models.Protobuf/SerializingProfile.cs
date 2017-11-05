@@ -20,7 +20,7 @@ namespace CompatibilityAnalyzer.Models.Protobuf
             CreateMap<Guid, string>()
                 .ConvertUsing(g => g.ToString());
             CreateMap<Models.AnalyzeRequest, AnalyzeRequest>();
-            CreateMap<Models.NugetData, NuGetRequest>();
+            CreateMap<Models.NuGetRequestItem, NuGetRequest>();
             CreateMap<IRequestItem, RequestItem>()
                 .ConvertUsing((irequest, request, ctx) =>
                 {
@@ -28,7 +28,7 @@ namespace CompatibilityAnalyzer.Models.Protobuf
 
                     switch (irequest)
                     {
-                        case NugetData nuget:
+                        case NuGetRequestItem nuget:
                             request.Nuget = ctx.Mapper.Map<NuGetRequest>(nuget);
                             break;
                         default:

@@ -1,6 +1,6 @@
 ﻿namespace CompatibilityAnalyzer.Models
 {
-    public class NugetData : IRequestItem
+    public class NuGetRequestItem : IRequestItem
     {
         public string Feed { get; set; }
 

@@ -7,14 +7,14 @@ namespace CompatibilityAnalyzer.Models.Protobuf
         public DeserializingProfile()
         {
             CreateMap<AnalyzeRequest, Models.AnalyzeRequest>();
-            CreateMap<NuGetRequest, NugetData>();
+            CreateMap<NuGetRequest, NuGetRequestItem>();
             CreateMap<RequestItem, IRequestItem>()
                 .ConvertUsing((request, result, ctx) =>
                 {
                     switch (request.ItemCase)
                     {
                         case RequestItem.ItemOneofCase.Nuget:
-                            return ctx.Mapper.Map<NugetData>(request.Nuget);
+                            return ctx.Mapper.Map<NuGetRequestItem>(request.Nuget);
                         default:
                             return null;
                     }

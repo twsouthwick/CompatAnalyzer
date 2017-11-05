@@ -37,9 +37,9 @@ namespace CompatibilityAnalyzer.Service.Controllers
 
         public class NuGetRequest
         {
-            public NugetData Original { get; set; }
+            public NuGetRequestItem Original { get; set; }
 
-            public NugetData Updated { get; set; }
+            public NuGetRequestItem Updated { get; set; }
         }
     }
 }
