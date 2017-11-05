@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompatibilityAnalyzer.Models\CompatibilityAnalyzer.Models.csproj" />
-    <ProjectReference Include="..\CompatibilityAnalyzer.Messaging\CompatibilityAnalyzer.Messaging.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
   </ItemGroup>
 
 </Project>

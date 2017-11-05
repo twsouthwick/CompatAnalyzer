@@ -24,11 +24,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Models.Protobuf", "src\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj", "{D208FB90-ED31-4D35-8E22-41839653931B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Models", "src\CompatibilityAnalyzer.Models\CompatibilityAnalyzer.Models.csproj", "{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Messaging.RabbitMQ", "src\CompatibilityAnalyzer.Messaging.RabbitMQ\CompatibilityAnalyzer.Messaging.RabbitMQ.csproj", "{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Messaging", "src\CompatibilityAnalyzer.Messaging\CompatibilityAnalyzer.Messaging.csproj", "{91AD58F9-5178-496C-BC8F-ACCF5CB55821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -148,18 +144,6 @@ Global
 		{D208FB90-ED31-4D35-8E22-41839653931B}.Release|x64.Build.0 = Release|Any CPU
 		{D208FB90-ED31-4D35-8E22-41839653931B}.Release|x86.ActiveCfg = Release|Any CPU
 		{D208FB90-ED31-4D35-8E22-41839653931B}.Release|x86.Build.0 = Release|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Debug|x64.Build.0 = Debug|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Debug|x86.Build.0 = Debug|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Release|x64.ActiveCfg = Release|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Release|x64.Build.0 = Release|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Release|x86.ActiveCfg = Release|Any CPU
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}.Release|x86.Build.0 = Release|Any CPU
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -172,18 +156,6 @@ Global
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}.Release|x64.Build.0 = Release|Any CPU
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}.Release|x86.ActiveCfg = Release|Any CPU
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}.Release|x86.Build.0 = Release|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Debug|x64.Build.0 = Debug|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Debug|x86.Build.0 = Debug|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Release|x64.ActiveCfg = Release|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Release|x64.Build.0 = Release|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Release|x86.ActiveCfg = Release|Any CPU
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -197,9 +169,7 @@ Global
 		{18BF8705-CA0D-461F-9F14-4B78D9B16695} = {5D6826B7-9E87-4DC1-A90C-6741497455B5}
 		{99D27D2E-C7B3-4BC7-B180-E011F8AB369E} = {5D6826B7-9E87-4DC1-A90C-6741497455B5}
 		{D208FB90-ED31-4D35-8E22-41839653931B} = {5D6826B7-9E87-4DC1-A90C-6741497455B5}
-		{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE} = {5D6826B7-9E87-4DC1-A90C-6741497455B5}
 		{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F} = {5D6826B7-9E87-4DC1-A90C-6741497455B5}
-		{91AD58F9-5178-496C-BC8F-ACCF5CB55821} = {5D6826B7-9E87-4DC1-A90C-6741497455B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95BE6351-844C-463A-97A1-178B80FDCB1B}

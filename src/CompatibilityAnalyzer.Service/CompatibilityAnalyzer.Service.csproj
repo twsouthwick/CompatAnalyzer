@@ -20,9 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompatibilityAnalyzer.Models\CompatibilityAnalyzer.Models.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.Messaging.RabbitMQ\CompatibilityAnalyzer.Messaging.RabbitMQ.csproj" />
-    <ProjectReference Include="..\CompatibilityAnalyzer.Messaging\CompatibilityAnalyzer.Messaging.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj" />
   </ItemGroup>
 
