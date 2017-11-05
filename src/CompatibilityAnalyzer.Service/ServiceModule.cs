@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using CompatibilityAnalyzer.Messaging.RabbitMQ;
+using CompatibilityAnalyzer.Messaging;
 using CompatibilityAnalyzer.Models;
-using CompatibilityAnalyzer.Models.Protobuf;
 
 namespace CompatibilityAnalyzer.Service
 {
@@ -9,11 +8,8 @@ namespace CompatibilityAnalyzer.Service
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<ProtobufModelSerializer>()
-                .As<IModelSerializer>()
-                .SingleInstance();
-
             builder.RegisterModule<RabbitMqModule>();
+            builder.RegisterModule<ProtobufModule>();
         }
     }
 }

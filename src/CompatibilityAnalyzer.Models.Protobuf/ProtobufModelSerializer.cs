@@ -5,7 +5,7 @@ using System.IO;
 
 namespace CompatibilityAnalyzer.Models.Protobuf
 {
-    public class ProtobufModelSerializer : IModelSerializer
+    internal class ProtobufModelSerializer : IModelSerializer
     {
         private readonly Lazy<IMapper> _mapper;
 

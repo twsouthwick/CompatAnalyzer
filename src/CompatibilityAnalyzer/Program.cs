@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using CompatibilityAnalyzer.Messaging.RabbitMQ;
+using CompatibilityAnalyzer.Messaging;
 using CompatibilityAnalyzer.Models;
-using CompatibilityAnalyzer.Models.Protobuf;
 using System;
 using System.IO;
 using System.Reflection;
@@ -52,15 +51,12 @@ namespace CompatibilityAnalyzer
             builder.RegisterModule<AssemblyCompatibilityModule>();
             builder.RegisterModule<RulesModule>();
             builder.RegisterModule<RabbitMqModule>();
+            builder.RegisterModule<ProtobufModule>();
 
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => !t.IsAbstract && t.IsAssignableTo<ICommand>())
                 .Where(t => t.GetCustomAttribute<CommandAttribute>()?.Command == options.Command)
                 .As<ICommand>();
-
-            builder.RegisterType<ProtobufModelSerializer>()
-                .As<IModelSerializer>()
-                .SingleInstance();
 
             return builder.Build();
         }

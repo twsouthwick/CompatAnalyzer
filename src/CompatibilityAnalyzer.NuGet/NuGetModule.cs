@@ -6,7 +6,7 @@ using System;
 
 namespace CompatibilityAnalyzer
 {
-    internal class NuGetModule : Module
+    public class NuGetModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

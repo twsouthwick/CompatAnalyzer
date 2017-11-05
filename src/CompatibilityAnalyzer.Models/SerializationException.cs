@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CompatibilityAnalyzer.Models.Protobuf
+namespace CompatibilityAnalyzer.Models
 {
     public class SerializationException : Exception
     {

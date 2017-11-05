@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using RabbitMQ.Client;
 
-namespace CompatibilityAnalyzer.Messaging.RabbitMQ
+namespace CompatibilityAnalyzer.Messaging
 {
     public class RabbitMqModule : Module
     {
