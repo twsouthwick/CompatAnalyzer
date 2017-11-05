@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Autofac;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +18,11 @@ namespace CompatibilityAnalyzer.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+        }
 
-            services.AddSingleton<CompatibilityAnalyzer.Models.IModelSerializer, CompatibilityAnalyzer.Models.Protobuf.ProtobufModelSerializer>();
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule<ServiceModule>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
