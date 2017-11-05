@@ -56,6 +56,8 @@ namespace CompatibilityAnalyzer
                     arg.DefineCommand("ref", ref options._command, AnalysisCommand.CollectReferenceAssemblies, "Collect reference assemblies");
                     arg.DefineOption("path", ref options._referencePath, true, "Path to save reference assembly collection");
 
+                    arg.DefineCommand("monitor", ref options._command, AnalysisCommand.MonitorQueue, "Monitor queue");
+
                     syntax = arg;
                 });
 

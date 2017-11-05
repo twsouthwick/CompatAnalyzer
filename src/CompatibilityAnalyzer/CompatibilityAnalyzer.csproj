@@ -13,13 +13,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Autofac" Version="4.6.2" />
     <PackageReference Include="System.CommandLine" Version="0.1.0-e170406-3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Compatibility.Cci\CompatibilityAnalyzer.Cci.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.Common\CompatibilityAnalyzer.Common.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Messaging.RabbitMQ\CompatibilityAnalyzer.Messaging.RabbitMQ.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Messaging\CompatibilityAnalyzer.Messaging.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.NuGet\CompatibilityAnalyzer.NuGet.csproj" />
     <ProjectReference Include="..\CompatibilityAnalyzer.Rules\CompatibilityAnalyzer.Rules.csproj" />
   </ItemGroup>

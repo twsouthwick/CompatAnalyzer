@@ -1,22 +1,24 @@
-﻿using CompatibilityAnalyzer.Models;
+﻿using CompatibilityAnalyzer.Messaging;
+using CompatibilityAnalyzer.Models;
 using CompatibilityAnalyzer.Service.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace CompatibilityAnalyzer.Service.Controllers
 {
     [Route("api/[controller]")]
     public class AnalyzerController : Controller
     {
-        private readonly IModelSerializer _serializer;
+        private readonly IRequestQueue _queue;
 
-        public AnalyzerController(IModelSerializer serializer)
+        public AnalyzerController(IRequestQueue queue)
         {
-            _serializer = serializer;
+            _queue = queue;
         }
 
         [HttpPost("NuGet")]
-        public ResultId Nuget([FromBody]NuGetRequest nuGetRequest)
+        public async Task<ResultId> Nuget([FromBody]NuGetRequest nuGetRequest)
         {
             var request = new AnalyzeRequest
             {
@@ -25,20 +27,19 @@ namespace CompatibilityAnalyzer.Service.Controllers
                 Updated = nuGetRequest.Updated
             };
 
-            var bytes = _serializer.Serialize(request);
-            var deserialized = _serializer.Deserialize(bytes);
+            await _queue.AddAsync(request);
 
             return new ResultId
             {
-                Id = Guid.NewGuid()
+                Id = request.Id
             };
         }
-    }
 
-    public class NuGetRequest
-    {
-        public NugetData Original { get; set; }
+        public class NuGetRequest
+        {
+            public NugetData Original { get; set; }
 
-        public NugetData Updated { get; set; }
+            public NugetData Updated { get; set; }
+        }
     }
 }

@@ -4,6 +4,7 @@
     {
         None,
         Analyze,
-        CollectReferenceAssemblies
+        CollectReferenceAssemblies,
+        MonitorQueue
     }
 }

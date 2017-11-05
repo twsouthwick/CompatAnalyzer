@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using CompatibilityAnalyzer.Messaging.RabbitMQ;
 using CompatibilityAnalyzer.Models;
 using CompatibilityAnalyzer.Models.Protobuf;
 
@@ -11,6 +12,8 @@ namespace CompatibilityAnalyzer.Service
             builder.RegisterType<ProtobufModelSerializer>()
                 .As<IModelSerializer>()
                 .SingleInstance();
+
+            builder.RegisterModule<RabbitMqModule>();
         }
     }
 }
