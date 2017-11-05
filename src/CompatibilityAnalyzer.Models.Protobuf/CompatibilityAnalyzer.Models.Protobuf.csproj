@@ -9,8 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompatibilityAanalyzer.Models\CompatibilityAanalyzer.Models.csproj" />
     <PackageReference Include="AutoMapper" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CompatibilityAnalyzer.Models\CompatibilityAnalyzer.Models.csproj" />
   </ItemGroup>
 
 </Project>

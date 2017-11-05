@@ -18,17 +18,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Rules", "src\CompatibilityAnalyzer.Rules\CompatibilityAnalyzer.Rules.csproj", "{18BF8705-CA0D-461F-9F14-4B78D9B16695}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAnalyzer.Service", "src\CompatibilityAnalyzer.Service\CompatibilityAnalyzer.Service.csproj", "{99D27D2E-C7B3-4BC7-B180-E011F8AB369E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Service", "src\CompatibilityAnalyzer.Service\CompatibilityAnalyzer.Service.csproj", "{99D27D2E-C7B3-4BC7-B180-E011F8AB369E}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAnalyzer.Models.Protobuf", "src\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj", "{D208FB90-ED31-4D35-8E22-41839653931B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Models.Protobuf", "src\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj", "{D208FB90-ED31-4D35-8E22-41839653931B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAanalyzer.Models", "src\CompatibilityAanalyzer.Models\CompatibilityAanalyzer.Models.csproj", "{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Models", "src\CompatibilityAnalyzer.Models\CompatibilityAnalyzer.Models.csproj", "{C3888CDA-D6C8-4FB9-87E7-579FA7895FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAnalyzer.Messaging.RabbitMQ", "src\CompatibilityAnalyzer.Messaging.RabbitMQ\CompatibilityAnalyzer.Messaging.RabbitMQ.csproj", "{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Messaging.RabbitMQ", "src\CompatibilityAnalyzer.Messaging.RabbitMQ\CompatibilityAnalyzer.Messaging.RabbitMQ.csproj", "{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompatibilityAnalyzer.Messaging", "src\CompatibilityAnalyzer.Messaging\CompatibilityAnalyzer.Messaging.csproj", "{91AD58F9-5178-496C-BC8F-ACCF5CB55821}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Messaging", "src\CompatibilityAnalyzer.Messaging\CompatibilityAnalyzer.Messaging.csproj", "{91AD58F9-5178-496C-BC8F-ACCF5CB55821}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

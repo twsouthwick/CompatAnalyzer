@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CompatibilityAanalyzer.Models\CompatibilityAanalyzer.Models.csproj" />
+    <ProjectReference Include="..\CompatibilityAnalyzer.Models\CompatibilityAnalyzer.Models.csproj" />
   </ItemGroup>
 
 </Project>
