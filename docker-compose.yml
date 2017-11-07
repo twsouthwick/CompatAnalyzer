@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+    ports:
+        - "80:80"
 
   compatibilityanalyzer:
     image: compatibilityanalyzer
@@ -20,5 +22,3 @@ services:
   rabbitmq:
     container_name: dev_rabbit
     image: rabbitmq:3.6.12-alpine
-    ports:
-        - "5672:5672"
