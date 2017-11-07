@@ -20,8 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Rules
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Service", "src\CompatibilityAnalyzer.Service\CompatibilityAnalyzer.Service.csproj", "{99D27D2E-C7B3-4BC7-B180-E011F8AB369E}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Models.Protobuf", "src\CompatibilityAnalyzer.Models.Protobuf\CompatibilityAnalyzer.Models.Protobuf.csproj", "{D208FB90-ED31-4D35-8E22-41839653931B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Messaging.RabbitMQ", "src\CompatibilityAnalyzer.Messaging.RabbitMQ\CompatibilityAnalyzer.Messaging.RabbitMQ.csproj", "{4DA6279C-3D69-4B1A-B96E-20D5F7A79A1F}"
@@ -120,18 +118,6 @@ Global
 		{99D27D2E-C7B3-4BC7-B180-E011F8AB369E}.Release|x64.Build.0 = Release|Any CPU
 		{99D27D2E-C7B3-4BC7-B180-E011F8AB369E}.Release|x86.ActiveCfg = Release|Any CPU
 		{99D27D2E-C7B3-4BC7-B180-E011F8AB369E}.Release|x86.Build.0 = Release|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Debug|x64.Build.0 = Debug|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Debug|x86.Build.0 = Debug|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Release|x64.ActiveCfg = Release|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Release|x64.Build.0 = Release|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Release|x86.ActiveCfg = Release|Any CPU
-		{F18A5D19-5AE0-45EE-BDB8-46DBC22852C7}.Release|x86.Build.0 = Release|Any CPU
 		{D208FB90-ED31-4D35-8E22-41839653931B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D208FB90-ED31-4D35-8E22-41839653931B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D208FB90-ED31-4D35-8E22-41839653931B}.Debug|x64.ActiveCfg = Debug|Any CPU
