@@ -10,7 +10,7 @@ namespace CompatibilityAnalyzer
         private string _updatedVersion = null;
         private string _feed = @"https://api.nuget.org/v3/index.json";
         private bool _verbose = false;
-        private AnalysisCommand _command = AnalysisCommand.None;
+        private AnalysisCommand _command = AnalysisCommand.MonitorQueue;
         private string _referencePath;
 
         private AnalysisOptionsBuilder()
@@ -40,6 +40,11 @@ namespace CompatibilityAnalyzer
 
             try
             {
+                if (args.Length == 0)
+                {
+                    return options;
+                }
+
                 ArgumentSyntax.Parse(args, arg =>
                 {
                     arg.HandleErrors = false;

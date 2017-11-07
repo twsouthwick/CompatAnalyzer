@@ -16,6 +16,8 @@ namespace CompatibilityAnalyzer
 
             Console.WriteLine($"Package Compatibility Analyzer v{version}{Environment.NewLine}");
 
+            await Task.Delay(2000);
+
             try
             {
                 var options = AnalysisOptionsBuilder.Parse(args);

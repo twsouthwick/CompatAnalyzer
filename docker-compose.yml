@@ -6,3 +6,19 @@ services:
     build:
       context: ./src/CompatibilityAnalyzer.Service
       dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+
+  compatibilityanalyzer:
+    image: compatibilityanalyzer
+    build:
+      context: ./src/CompatibilityAnalyzer
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    container_name: dev_rabbit
+    image: rabbitmq:3.6.12-alpine
+    ports:
+        - "5672:5672"

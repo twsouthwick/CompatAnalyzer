@@ -11,7 +11,7 @@ namespace CompatibilityAnalyzer.Messaging
             {
                 var factory = new ConnectionFactory
                 {
-                    HostName = "localhost",
+                    HostName = "rabbitmq",
                     VirtualHost = "/"
                 };
 
