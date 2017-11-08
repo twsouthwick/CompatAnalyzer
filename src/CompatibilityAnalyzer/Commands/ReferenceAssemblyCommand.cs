@@ -25,16 +25,23 @@ namespace CompatibilityAnalyzer
             {
                 foreach (var profile in _provider.SupportedProfiles)
                 {
-                    _writer.WriteLine($"Adding reference assembly for: {profile}");
-
-                    foreach (var path in _provider.GetReferenceAssemblyPath(profile))
+                    try
                     {
-                        foreach (var item in Directory.EnumerateFiles(path, "*.dll", SearchOption.TopDirectoryOnly))
-                        {
-                            var name = Path.Combine(profile, Path.GetFileName(item));
+                        _writer.WriteLine($"Adding reference assembly for: {profile}");
 
-                            zip.CreateEntryFromFile(item, name, CompressionLevel.Optimal);
+                        foreach (var path in _provider.GetReferenceAssemblyPath(profile))
+                        {
+                            foreach (var item in Directory.EnumerateFiles(path, "*.dll", SearchOption.TopDirectoryOnly))
+                            {
+                                var name = Path.Combine(profile, Path.GetFileName(item));
+
+                                zip.CreateEntryFromFile(item, name, CompressionLevel.Optimal);
+                            }
                         }
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        _writer.WriteLine($"Could not find {profile}");
                     }
                 }
             }

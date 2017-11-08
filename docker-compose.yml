@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 services:
   compatibilityanalyzer.service:
@@ -18,6 +18,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - rabbitmq
+    volumes:
+      - "c:\\data\\refs:/refs:ro"
 
   rabbitmq:
     container_name: dev_rabbit
