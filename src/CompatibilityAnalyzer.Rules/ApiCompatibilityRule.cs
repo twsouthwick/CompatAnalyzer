@@ -29,16 +29,24 @@ namespace CompatibilityAnalyzer
                     continue;
                 }
 
+                _writer.WriteLine($"[{framework}] Started");
+
                 try
                 {
                     var updatedAssemblies = updated.GetAssemblies(framework);
                     var originalAssemblies = original.GetAssemblies(framework);
 
-                    _analyzer.Analyze(originalAssemblies, updatedAssemblies, framework);
+                    var results = _analyzer.Analyze(originalAssemblies, updatedAssemblies, framework);
+
+                    _writer.WriteLine($"[{framework}] Found {results.Count} issues");
                 }
                 catch (CompatibilityAnalysisException e)
                 {
                     _writer.WriteLine(e.Message);
+                }
+                finally
+                {
+                    _writer.WriteLine($"[{framework}] Finished");
                 }
             }
 

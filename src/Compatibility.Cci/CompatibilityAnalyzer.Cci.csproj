@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Compile Remove="$(BuildToolsPath)\ApiCompat\Program.cs" />
+    <Compile Remove="$(BuildToolsPath)\ApiCompat\DifferenceWriter.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,11 +5,9 @@ using Microsoft.Cci.Differs;
 using Microsoft.Cci.Extensions;
 using Microsoft.Cci.Filters;
 using Microsoft.Cci.Mappings;
-using Microsoft.Cci.Writers;
 using NuGet.Frameworks;
 using System;
 using System.Collections.Generic;
-using System.Composition;
 using System.Composition.Hosting;
 using System.Diagnostics;
 using System.IO;
@@ -58,7 +56,7 @@ namespace CompatibilityAnalyzer
             return host;
         }
 
-        public void Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework)
+        public IReadOnlyCollection<Difference> Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework)
         {
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();
@@ -72,14 +70,10 @@ namespace CompatibilityAnalyzer
             var implHost = CreateHostEnvironment(sharedNameTable, framework);
             var implAssemblies = implHost.LoadAssemblies(version2Assemblies.Files);
 
-            // Exit after loading if the code is set to non-zero
-            if (DifferenceWriter.ExitCode != 0)
-                return;
+            var tracker = GetDifferenceWriter(_log, filter);
+            tracker.Visit(implAssemblies, contractAssemblies);
 
-            var writer = GetDifferenceWriter(_log, filter);
-
-            Console.Write($"{framework}: ");
-            writer.Write(s_implDirs, implAssemblies, s_contractSet, contractAssemblies);
+            return tracker.Differences;
         }
 
         public IEnumerable<CompatibilityRule> GetRules()
@@ -140,7 +134,7 @@ namespace CompatibilityAnalyzer
             }
         }
 
-        private static ICciDifferenceWriter GetDifferenceWriter(TextWriter writer, IDifferenceFilter filter)
+        private static DifferenceTracker GetDifferenceWriter(TextWriter writer, IDifferenceFilter filter)
         {
             var container = GetCompositionHost();
 
@@ -172,11 +166,8 @@ namespace CompatibilityAnalyzer
                 filter = new DifferenceFilter<IncompatibleDifference>();
             }
 
-            ICciDifferenceWriter diffWriter = new DifferenceWriter(writer, settings, filter);
+            var diffWriter = new DifferenceTracker(settings, filter);
             ExportCciSettings.StaticSettings = settings.TypeComparer;
-
-            // Always compose the diff writer to allow it to import or provide exports
-            container.SatisfyImports(diffWriter);
 
             return diffWriter;
         }
