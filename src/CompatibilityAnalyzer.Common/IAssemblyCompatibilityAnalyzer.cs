@@ -5,7 +5,7 @@ namespace CompatibilityAnalyzer
 {
     public interface IAssemblyCompatibilityAnalyzer
     {
-        IReadOnlyCollection<Difference> Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework);
+        IReadOnlyCollection<Issue> Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework);
 
         IEnumerable<CompatibilityRule> GetRules();
     }

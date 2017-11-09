@@ -56,7 +56,7 @@ namespace CompatibilityAnalyzer
             return host;
         }
 
-        public IReadOnlyCollection<Difference> Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework)
+        public IReadOnlyCollection<Issue> Analyze(FrameworkItems version1Assemblies, FrameworkItems version2Assemblies, NuGetFramework framework)
         {
             var filter = GetBaselineDifferenceFilter();
             var sharedNameTable = new NameTable();

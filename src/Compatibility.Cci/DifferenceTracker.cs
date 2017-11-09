@@ -1,6 +1,7 @@
 ﻿using Microsoft.Cci.Filters;
 using Microsoft.Cci.Mappings;
 using Microsoft.Cci.Traversers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -29,11 +30,21 @@ namespace CompatibilityAnalyzer
             _differences.Add(difference);
         }
 
-        public IReadOnlyCollection<Difference> Differences => _differences
-            .Select(d => new Difference
+        public IReadOnlyCollection<Issue> Differences
+        {
+            get
             {
-                Id = d.Id,
-                Message = d.Message
-            }).ToList();
+                if (_differences.Count == 0)
+                {
+                    return Array.Empty<Issue>();
+                }
+                else
+                {
+                    return _differences
+                        .Select(d => new Issue(d.Id, d.Message))
+                        .ToList();
+                }
+            }
+        }
     }
 }

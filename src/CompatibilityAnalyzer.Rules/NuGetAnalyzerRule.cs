@@ -17,9 +17,9 @@ namespace CompatibilityAnalyzer
 
         public string Name => "NuGet target analyzer";
 
-        public Task<IReadOnlyCollection<RuleDiagnostic>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
+        public Task<IReadOnlyCollection<Issue>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
         {
-            return Task.FromResult<IReadOnlyCollection<RuleDiagnostic>>(Array.Empty<RuleDiagnostic>());
+            return Task.FromResult<IReadOnlyCollection<Issue>>(Array.Empty<Issue>());
         }
     }
 }

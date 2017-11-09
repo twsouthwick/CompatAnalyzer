@@ -8,6 +8,6 @@ namespace CompatibilityAnalyzer
     {
         string Name { get; }
 
-        Task<IReadOnlyCollection<RuleDiagnostic>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token);
+        Task<IReadOnlyCollection<Issue>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token);
     }
 }

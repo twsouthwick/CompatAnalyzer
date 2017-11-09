@@ -18,9 +18,9 @@ namespace CompatibilityAnalyzer
 
         public string Name => "API Compatibility";
 
-        public Task<IReadOnlyCollection<RuleDiagnostic>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
+        public Task<IReadOnlyCollection<Issue>> RunRuleAsync(IPackage original, IPackage updated, CancellationToken token)
         {
-            var result = new List<RuleDiagnostic>();
+            var result = new List<Issue>();
 
             foreach (var framework in updated.SupportedFrameworks)
             {
@@ -37,6 +37,9 @@ namespace CompatibilityAnalyzer
                     var originalAssemblies = original.GetAssemblies(framework);
 
                     var results = _analyzer.Analyze(originalAssemblies, updatedAssemblies, framework);
+                    var issue = new Issue(Name, $"Framework: {framework}", results);
+
+                    result.Add(issue);
 
                     _writer.WriteLine($"[{framework}] Found {results.Count} issues");
                 }
@@ -50,7 +53,7 @@ namespace CompatibilityAnalyzer
                 }
             }
 
-            return Task.FromResult<IReadOnlyCollection<RuleDiagnostic>>(result);
+            return Task.FromResult<IReadOnlyCollection<Issue>>(result);
         }
     }
 }
