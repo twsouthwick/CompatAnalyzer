@@ -15,15 +15,17 @@ namespace CompatibilityAnalyzer.Commands
         private readonly IRequestObservable _requests;
         private readonly IEnumerable<IAnalyzerRule> _rules;
         private readonly INuGetPackageProvider _packageProvider;
+        private readonly IResultStorage _storage;
         private readonly TextWriter _writer;
         private readonly TaskCompletionSource<bool> _tcs;
 
-        public MonitorQueueCommand(IRequestObservable requests, TextWriter writer, IEnumerable<IAnalyzerRule> rules, INuGetPackageProvider packageProvider)
+        public MonitorQueueCommand(IRequestObservable requests, TextWriter writer, IEnumerable<IAnalyzerRule> rules, INuGetPackageProvider packageProvider, IResultStorage storage)
         {
             _requests = requests;
             _rules = rules;
             _packageProvider = packageProvider;
             _writer = writer;
+            _storage = storage;
 
             _tcs = new TaskCompletionSource<bool>();
         }
@@ -50,6 +52,8 @@ namespace CompatibilityAnalyzer.Commands
         {
             try
             {
+                var finalResults = new List<Issue>();
+
                 Console.WriteLine($"Starting: {value.Message.Id}");
 
                 using (var updated = await value.Message.Updated.GetPackageAsync(_packageProvider, CancellationToken.None))
@@ -59,9 +63,17 @@ namespace CompatibilityAnalyzer.Commands
                     {
                         _writer.WriteLine(rule.Name);
 
-                        await rule.RunRuleAsync(original, updated, CancellationToken.None);
+                        var results = await rule.RunRuleAsync(original, updated, CancellationToken.None);
+
+                        finalResults.AddRange(results);
                     }
                 }
+
+                await _storage.UpdateAsync(new IssueResults
+                {
+                    Id = value.Message.Id,
+                    Issues = finalResults
+                }, CancellationToken.None);
 
                 return value;
             }

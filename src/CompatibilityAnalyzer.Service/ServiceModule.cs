@@ -10,6 +10,7 @@ namespace CompatibilityAnalyzer.Service
         {
             builder.RegisterModule<RabbitMqModule>();
             builder.RegisterModule<ProtobufModule>();
+            builder.RegisterModule<MongoDbModule>();
         }
     }
 }

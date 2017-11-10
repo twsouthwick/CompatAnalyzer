@@ -21,6 +21,10 @@ services:
     volumes:
       - "c:\\data\\refs:/refs:ro"
 
+  mongo:
+    container_name: dev_mongo
+    image: mongo:3.4.10
+
   rabbitmq:
     container_name: dev_rabbit
     image: rabbitmq:3.6.12-alpine

@@ -54,6 +54,7 @@ namespace CompatibilityAnalyzer
             builder.RegisterModule<RulesModule>();
             builder.RegisterModule<RabbitMqModule>();
             builder.RegisterModule<ProtobufModule>();
+            builder.RegisterModule<MongoDbModule>();
 
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => !t.IsAbstract && t.IsAssignableTo<ICommand>())
