@@ -8,5 +8,7 @@ namespace CompatibilityAnalyzer
         public Guid Id { get; set; }
 
         public IReadOnlyCollection<Issue> Issues { get; set; }
+
+        public IssueResultState State { get; set; }
     }
 }

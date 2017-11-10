@@ -56,6 +56,13 @@ namespace CompatibilityAnalyzer.Commands
 
                 Console.WriteLine($"Starting: {value.Message.Id}");
 
+                await _storage.UpdateAsync(new IssueResults
+                {
+                    Id = value.Message.Id,
+                    Issues = Array.Empty<Issue>(),
+                    State = IssueResultState.Processing
+                }, CancellationToken.None);
+
                 using (var updated = await value.Message.Updated.GetPackageAsync(_packageProvider, CancellationToken.None))
                 using (var original = await value.Message.Original.GetPackageAsync(_packageProvider, CancellationToken.None))
                 {
@@ -72,7 +79,8 @@ namespace CompatibilityAnalyzer.Commands
                 await _storage.UpdateAsync(new IssueResults
                 {
                     Id = value.Message.Id,
-                    Issues = finalResults
+                    Issues = finalResults,
+                    State = IssueResultState.Completed
                 }, CancellationToken.None);
 
                 return value;

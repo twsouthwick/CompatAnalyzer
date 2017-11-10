@@ -1,4 +1,6 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Threading;
@@ -34,6 +36,7 @@ namespace CompatibilityAnalyzer
             };
 
             var updated = Builders<IssueResults>.Update
+                .Set(t => t.State, results.State)
                 .Set(t => t.Issues, results.Issues);
 
             return _collection.UpdateOneAsync(t => t.Id == results.Id, updated, options, token);
@@ -49,6 +52,7 @@ namespace CompatibilityAnalyzer
             var results = new IssueResults
             {
                 Id = Guid.NewGuid(),
+                State = IssueResultState.Created,
                 Issues = Array.Empty<Issue>()
             };
 
