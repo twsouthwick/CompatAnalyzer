@@ -2,6 +2,7 @@
 using CompatibilityAnalyzer.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,12 @@ namespace CompatibilityAnalyzer.Service.Controllers
         {
             _queue = queue;
             _storage = storage;
+        }
+
+        [HttpGet]
+        public Task<IEnumerable<IssueResults>> GetAllAsync()
+        {
+            return _storage.GetAsync(CancellationToken.None);
         }
 
         [HttpGet("{id}")]

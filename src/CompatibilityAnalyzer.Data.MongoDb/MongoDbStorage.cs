@@ -1,7 +1,6 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,6 +56,21 @@ namespace CompatibilityAnalyzer
             };
 
             await _collection.InsertOneAsync(results, options, token);
+
+            return results;
+        }
+
+        public async Task<IEnumerable<IssueResults>> GetAsync(CancellationToken token)
+        {
+            var options = new FindOptions<IssueResults>();
+            var found = await _collection.FindAsync(FilterDefinition<IssueResults>.Empty, options, token);
+            var results = new List<IssueResults>();
+
+            while (await found.MoveNextAsync(token))
+            {
+                token.ThrowIfCancellationRequested();
+                results.AddRange(found.Current);
+            }
 
             return results;
         }

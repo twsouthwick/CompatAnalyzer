@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,5 +12,7 @@ namespace CompatibilityAnalyzer
         Task UpdateAsync(IssueResults results, CancellationToken token);
 
         Task<IssueResults> GetAsync(Guid guid, CancellationToken token);
+
+        Task<IEnumerable<IssueResults>> GetAsync(CancellationToken none);
     }
 }
