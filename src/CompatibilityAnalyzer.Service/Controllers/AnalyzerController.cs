@@ -1,6 +1,5 @@
 ﻿using CompatibilityAnalyzer.Messaging;
 using CompatibilityAnalyzer.Models;
-using CompatibilityAnalyzer.Service.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading;
