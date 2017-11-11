@@ -56,6 +56,10 @@ namespace CompatibilityAnalyzer
             builder.RegisterModule<ProtobufModule>();
             builder.RegisterModule<MongoDbModule>();
 
+            builder.RegisterType<RequestProcessor>()
+                .As<IRequestProcessor>()
+                .SingleInstance();
+
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => !t.IsAbstract && t.IsAssignableTo<ICommand>())
                 .Where(t => t.GetCustomAttribute<CommandAttribute>()?.Command == options.Command)

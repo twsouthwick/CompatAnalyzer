@@ -1,78 +1,42 @@
 ﻿using CompatibilityAnalyzer.Models;
 using RabbitMQ.Client;
 using System;
-using System.Reactive.Subjects;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CompatibilityAnalyzer.Messaging
 {
-    internal class RabbitMqConsumer : IDisposable, IRequestObservable
+    internal class RabbitMqConsumer : IQueueListener
     {
-        private readonly Subject<IMessage<AnalyzeRequest>> _subject;
         private readonly IModel _model;
-        private readonly string _consumerTag;
+        private readonly IModelSerializer _serializer;
+        private readonly IRequestProcessor _requestProcessor;
 
-        public RabbitMqConsumer(IModel model, IModelSerializer serializer)
+        public RabbitMqConsumer(IModel model, IModelSerializer serializer, IRequestProcessor requestProcessor)
         {
-            _subject = new Subject<IMessage<AnalyzeRequest>>();
             _model = model;
-
-            var consumer = new AnalyzeRequestConsumer(_model, serializer, _subject);
-            _consumerTag = _model.BasicConsume(Constants.MessageQueue, false, consumer);
+            _serializer = serializer;
+            _requestProcessor = requestProcessor;
         }
 
-        public void Dispose()
+        public async Task ProcessQueueAsync(CancellationToken token)
         {
-            _model.BasicCancel(_consumerTag);
-        }
-
-        public IDisposable Subscribe(IObserver<IMessage<AnalyzeRequest>> observer) => _subject.Subscribe(observer);
-
-        private sealed class AnalyzeRequestConsumer : DefaultBasicConsumer
-        {
-            private readonly IObserver<IMessage<AnalyzeRequest>> _observer;
-            private readonly IModelSerializer _serializer;
-
-            public AnalyzeRequestConsumer(IModel model, IModelSerializer serializer, IObserver<IMessage<AnalyzeRequest>> observer)
-                : base(model)
+            while (!token.IsCancellationRequested)
             {
-                _serializer = serializer;
-                _observer = observer;
-            }
+                var result = _model.BasicGet(Constants.MessageQueue, false);
 
-            public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey, IBasicProperties properties, byte[] body)
-            {
-                // TODO: Error handling
-                var request = _serializer.Deserialize(body);
-
-                _observer.OnNext(new RabbitMqMessage<AnalyzeRequest>(request, Model, deliveryTag));
-            }
-
-            public override void HandleModelShutdown(object model, ShutdownEventArgs reason)
-            {
-                base.HandleModelShutdown(model, reason);
-                _observer.OnCompleted();
-            }
-        }
-
-        private sealed class RabbitMqMessage<T> : IMessage<T>
-        {
-            private readonly IModel _model;
-            private readonly ulong _tag;
-
-            public RabbitMqMessage(T message, IModel model, ulong tag)
-            {
-                Message = message;
-                _model = model;
-                _tag = tag;
-            }
-
-            public T Message { get; }
-
-            public void Complete()
-            {
-                lock (_model)
+                if (result != null)
                 {
-                    _model.BasicAck(_tag, false);
+                    var request = _serializer.Deserialize(result.Body);
+
+                    try
+                    {
+                        await _requestProcessor.ProcessAsync(request, token);
+                        _model.BasicAck(result.DeliveryTag, false);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
         }

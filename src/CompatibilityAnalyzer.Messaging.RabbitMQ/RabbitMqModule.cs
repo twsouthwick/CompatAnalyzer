@@ -32,7 +32,7 @@ namespace CompatibilityAnalyzer.Messaging
             }).SingleInstance();
 
             builder.RegisterType<RabbitMqConsumer>()
-                .As<IRequestObservable>()
+                .As<IQueueListener>()
                 .SingleInstance();
 
             builder.RegisterType<RabbitMqQueue>()
