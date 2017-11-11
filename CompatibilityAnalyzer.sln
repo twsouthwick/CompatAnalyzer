@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.NuGet", "src\CompatibilityAnalyzer.NuGet\CompatibilityAnalyzer.NuGet.csproj", "{F9EC71C6-3205-4C59-9FBC-54AB0D04F8B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Cci", "src\Compatibility.Cci\CompatibilityAnalyzer.Cci.csproj", "{32CC7FDC-6EA2-46E3-9573-E10641320CEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer.Cci", "src\CompatibilityAnalyzer.Cci\CompatibilityAnalyzer.Cci.csproj", "{32CC7FDC-6EA2-46E3-9573-E10641320CEB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompatibilityAnalyzer", "src\CompatibilityAnalyzer\CompatibilityAnalyzer.csproj", "{8564EC1C-D367-4E92-B06F-13EA6EEC380F}"
 EndProject
